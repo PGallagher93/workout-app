@@ -1,4 +1,4 @@
-const db = require("./connection")
+const db = require("../connection")
 const format = require('pg-format'
 )
 const {addExerciseID, findExerciseID, hashPassword} = require("./seed-utils")
