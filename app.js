@@ -1,8 +1,9 @@
-const express = require("express")
+const express = require("express");
+const { getEndpoints } = require("./controllers/api-controller");
+const app = express();
 
-const app = express()
+app.use(express.json());
 
+app.get("/api", getEndpoints);
 
-app.use(express.json())
-
-app.get("/api", getEndpoints)
+module.exports = app;
