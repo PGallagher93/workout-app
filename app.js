@@ -11,7 +11,7 @@ app.get("/api/premades", getPremadeWorkouts)
 app.get("/api/workouts/:user_id", getWorkoutsByUserID)
 
 app.use((req, res) => {
-    console.log("THERES AN ERROR")
+    
     res.status(404).send({msg:"not found"})
 })
 
