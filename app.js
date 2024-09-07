@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/api", getEndpoints);
-app.get("/api/premade", getPremadeWorkouts)
+app.get("/api/premades", getPremadeWorkouts)
 app.get("/api/workouts/:user_id", getWorkoutsByUserID)
 
 app.use((req, res) => {

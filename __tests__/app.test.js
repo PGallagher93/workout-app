@@ -51,5 +51,15 @@ describe("GET: /api/workouts/:user_id", ()=>{
         return request(app)
             .get("/api/workouts/1")
             .expect(200)
+            .then((res) => {
+                const {workouts} = res.body
+                expect(workouts).toHaveLength(2)
+                workouts.forEach((workout) => {
+                    expect(workout).toHaveProperty("workout_id", expect.any(Number))
+                    expect(workout).toHaveProperty("workout_name", expect.any(String))
+                    expect(workout).toHaveProperty("workout_user", expect.any(Number))
+                    expect(workout).toHaveProperty("is_premade", expect.any(Boolean))
+                })
+            })
     })
 })
