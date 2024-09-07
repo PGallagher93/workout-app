@@ -71,4 +71,13 @@ describe("GET: /api/workouts/:user_id", ()=>{
                 expect(msg).toBe("not found")
             })
     })
+    test("GET 400: returns a 400 status code when given a id of invalid type", () => {
+        return request(app)
+            .get("/api/workouts/hello")
+            .expect(400)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
 })
