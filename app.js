@@ -8,4 +8,8 @@ app.use(express.json());
 app.get("/api", getEndpoints);
 app.get("/api/premades", getPremadeWorkouts)
 
+app.use((req, res) => {
+    res.status(404).send({msg:"Not found"})
+})
+
 module.exports = app;
