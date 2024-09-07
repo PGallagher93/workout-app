@@ -12,4 +12,5 @@ exports.checkUserExists = (id) => {
                 return Promise.reject({status: 404, msg: "not found"})
             }
         })
+       
 }

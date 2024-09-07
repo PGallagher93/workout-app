@@ -1,7 +1,7 @@
 const express = require("express");
 const { getEndpoints } = require("./controllers/api-controller");
 const { getPremadeWorkouts, getWorkoutsByUserID} = require("./controllers/workout-controllers");
-const { handleCustomErrors } = require("./error-handlers");
+const { handleCustomErrors, handleErrors } = require("./error-handlers");
 const app = express();
 
 app.use(express.json());
@@ -16,5 +16,6 @@ app.use((req, res) => {
 })
 
 app.use(handleCustomErrors)
+app.use(handleErrors)
 
 module.exports = app;
