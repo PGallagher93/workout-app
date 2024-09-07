@@ -24,3 +24,24 @@ describe("GET: /api", ()=>{
             })
     })
 })
+
+describe("GET: /api/premades", () => {
+    test("GET 200: returns an array showing the premade workouts", () => {
+        return request(app)
+            .get("/api/premades")
+            .expect(200)
+            .then((res) =>{
+                const {workouts} = res.body
+                expect(workouts).toHaveLength(2)
+                workouts.forEach((workout) => {
+                    expect(workout).toHaveProperty("workout_id", expect.any(Number))
+                    expect(workout).toHaveProperty("workout_name", expect.any(String))
+                    expect(workout).toHaveProperty("workout_user", expect.any(Number))
+                    expect(workout).toHaveProperty("is_premade", expect.any(Boolean))
+                })
+
+            })
+ 
+            
+    })
+})
