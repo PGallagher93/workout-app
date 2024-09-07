@@ -5,3 +5,11 @@ exports.getPremadeWorkouts = (req, res, next) => {
         return res.status(200).send({workouts: data})
     })
 }
+
+exports.getWorkoutsByUserID = (req, res, next) => {
+      const {user_id} =  req.params
+      findWorkoutsByUserID(user_id).then((data) => {
+        console.log(data)
+      })
+     
+}

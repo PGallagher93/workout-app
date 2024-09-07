@@ -25,7 +25,7 @@ describe("GET: /api", ()=>{
     })
 })
 
-describe("GET: /api/premades", () => {
+describe("GET: /api/workouts", () => {
     test("GET 200: returns an array showing the premade workouts", () => {
         return request(app)
             .get("/api/premades")
@@ -43,5 +43,13 @@ describe("GET: /api/premades", () => {
             })
  
             
+    })
+})
+
+describe("GET: /api/workouts/:user_id", ()=>{
+    test("GET 200: returns an array of the users workouts", ()=>{
+        return request(app)
+            .get("/api/workouts/1")
+            .expect(200)
     })
 })
