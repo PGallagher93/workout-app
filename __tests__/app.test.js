@@ -62,4 +62,13 @@ describe("GET: /api/workouts/:user_id", ()=>{
                 })
             })
     })
+    test("GET 404: returns a 404 status code wen given a valid id that is not in the database(user does not exist)", ()=>{
+        return request(app)
+            .get("/api/workouts/9999")
+            .expect(404)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+            })
+    })
 })
