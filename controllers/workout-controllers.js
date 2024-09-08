@@ -31,7 +31,7 @@ exports.getWorkoutStatsByWorkoutID = (req, res, next) => {
 
         Promise.all(promises)
             .then((resolvedPromises) => {
-                console.log(resolvedPromises[0], " more rows")
+                
                 res.status(200).send({workout: resolvedPromises[0]})
             })
             .catch(next)

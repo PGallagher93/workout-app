@@ -62,7 +62,7 @@ describe("GET: /api/workouts/:user_id", ()=>{
                 })
             })
     })
-    test("GET 404: returns a 404 status code wen given a valid id that is not in the database(user does not exist)", ()=>{
+    test("GET 404: returns a 404 status code when given a valid id that is not in the database(user does not exist)", ()=>{
         return request(app)
             .get("/api/workouts/9999")
             .expect(404)
@@ -84,7 +84,37 @@ describe("GET: /api/workouts/:user_id", ()=>{
 describe("GET: /api/user/workouts/:workout_id", () => {
     test("GET 200: returns an array of the workout stats", () =>{
         return request(app)
-            .get("/api/user/workouts/2")
+            .get("/api/user/workouts/1")
             .expect(200)
+            .then((res) => {
+                const {workout} = res.body
+                expect(workout).toHaveLength(6)
+                workout.forEach((workoutStats) =>{
+                    expect(workoutStats).toHaveProperty("stat_id", expect.any(Number))
+                    expect(workoutStats).toHaveProperty("exercise_name", expect.any(String))
+                    expect(workoutStats).toHaveProperty("session", expect.any(Number))
+                    expect(workoutStats).toHaveProperty("weight", expect.any(Number))
+                    expect(workoutStats).toHaveProperty("sets", expect.any(Number))
+                    expect(workoutStats).toHaveProperty("reps", expect.any(Number))
+                })
+            })
+    })
+    test("GET 404: returns a 404 status code when given a valid workout id that does not exist", () => {
+        return request(app)
+             .get("/api/user/workouts/999999")
+             .expect(404)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("GET 400: returns a 400 status code when given a id of the wrong data type", () => {
+        return request(app)
+            .get("/api/user/workouts/hello")
+            .expect(400)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
     })
 })

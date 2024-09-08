@@ -29,7 +29,7 @@ exports.findWorkoutStatsByWorkoutID = (id) => {
                      ORDER BY workout_stats.stat_id`,
                      [id])
         .then(({rows}) => {
-            console.log(rows, "<< da rows bros")
+            
             return rows
         })
 }
