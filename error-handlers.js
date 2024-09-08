@@ -4,12 +4,13 @@ exports.handleCustomErrors = (err, req, res, next) => {
         res.status(err.status).send({msg: err.msg})
     }
     else {
-        console.log(err, "else")
+        
         next(err)
     }
 }
 
 exports.handleErrors = (err, req, res, next) => {
+    console.log(err)
     if(err.code = '22P02'){
         res.status(400).send({msg : "bad request"})
     }

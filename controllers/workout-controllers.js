@@ -1,5 +1,5 @@
 const { checkUserExists } = require("../models/user-models")
-const {readPremadeWorkouts, findWorkoutsByUserID} = require("../models/workouts-models")
+const {readPremadeWorkouts, findWorkoutsByUserID, checkWorkoutExists, findWorkoutStatsByWorkoutID} = require("../models/workouts-models")
 
 exports.getPremadeWorkouts = (req, res, next) => {
     readPremadeWorkouts().then((data) => {
@@ -20,4 +20,19 @@ exports.getWorkoutsByUserID = (req, res, next) => {
         })
         .catch(next)
      
+}
+
+exports.getWorkoutStatsByWorkoutID = (req, res, next) => {
+    const {workout_id} = req.params
+    console.log(workout_id)
+    
+    const promises = [findWorkoutStatsByWorkoutID(workout_id),
+                      checkWorkoutExists(workout_id)]
+
+        Promise.all(promises)
+            .then((resolvedPromises) => {
+                console.log(resolvedPromises[0], " more rows")
+                res.status(200).send({workout: resolvedPromises[0]})
+            })
+            .catch(next)
 }

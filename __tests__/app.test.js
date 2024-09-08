@@ -81,3 +81,10 @@ describe("GET: /api/workouts/:user_id", ()=>{
             })
     })
 })
+describe("GET: /api/user/workouts/:workout_id", () => {
+    test("GET 200: returns an array of the workout stats", () =>{
+        return request(app)
+            .get("/api/user/workouts/2")
+            .expect(200)
+    })
+})
