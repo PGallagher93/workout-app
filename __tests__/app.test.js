@@ -123,5 +123,14 @@ describe("GET: /api/exercises", () => {
         return request(app)
             .get("/api/exercises")
             .expect(200)
+            .then((res) => {
+                const {exercises} = res.body
+                expect(exercises).toHaveLength(80)
+                exercises.forEach((exercise) => {
+                    expect(exercise).toHaveProperty("exercise_id", expect.any(Number))
+                    expect(exercise).toHaveProperty("exercise_name", expect.any(String))
+                    expect(exercise).toHaveProperty("body_part", expect.any(String))
+                })
+            })
     })
 })

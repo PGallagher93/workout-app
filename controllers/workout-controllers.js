@@ -24,7 +24,7 @@ exports.getWorkoutsByUserID = (req, res, next) => {
 
 exports.getWorkoutStatsByWorkoutID = (req, res, next) => {
     const {workout_id} = req.params
-    console.log(workout_id)
+    
     
     const promises = [findWorkoutStatsByWorkoutID(workout_id),
                       checkWorkoutExists(workout_id)]
