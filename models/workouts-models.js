@@ -47,7 +47,7 @@ exports.checkWorkoutExists = (id) =>{
                 })
 }
 
-exports.insertWorkout = ({workout_name, workout_user}) => {
+exports.insertWorkout = ({workout_name}, id) => {
 
     return db
         .query(
@@ -56,10 +56,10 @@ exports.insertWorkout = ({workout_name, workout_user}) => {
              VALUES
              ($1, $2)
              returning *`,
-                [workout_name, workout_user]
+                [workout_name, id]
         )
         .then(({rows})=>{
-            console.log(rows, "rows in model")
+            
             return rows
         })
 

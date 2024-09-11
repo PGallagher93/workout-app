@@ -141,7 +141,7 @@ describe("POST: /api/users/1/workouts", () =>{
             workout_user:1
         }
         return request(app)
-           .post("/users/1/workouts")
+           .post("/api/workouts/1")
            .send(inputWorkout)
            .expect(201)
            .then((res) => {
@@ -153,5 +153,53 @@ describe("POST: /api/users/1/workouts", () =>{
            }) 
 
            
+    })
+    test("POST 404: returns a 404 status code when given an id that doesnt exist in the database", ()=>{
+        const inputWorkout = {
+            workout_name:"My Workout"
+        }
+        return request(app)
+            .post("/api/workouts/9999")
+            .expect(404)
+            .send(inputWorkout)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not found")
+            })
+    })
+    test("POST 400: returns a 400 status code and bad request message when given an id of an invalid type", () => {
+        const inputWorkout = {
+            workout_name:"My Workout"
+        }
+        return request(app)
+            .post("/api/workouts/hello")
+            .expect(400)
+            .send(inputWorkout)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    test("POST 400: returns a 400 status code and a bad request message if no workout is sent", ()=>{
+        return request(app)
+            .post("/api/workouts/1")
+            .expect(400)
+            .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    test("POST 400: returns a 400 status code and a bad request message if given the wrong key name in request body", () =>{
+        const inputWorkout = {
+            workout:3
+        }
+        return request(app)
+            .post("/api/workouts/1")
+            .send(inputWorkout)
+            .expect(400)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
     })
 })

@@ -2,10 +2,11 @@ const {insertWorkout} = require("../models/workouts-models")
 const {checkUserExists} = require("../models/user-models")
 exports.postWorkout = (req, res, next) => {
   const workout = req.body
+  const {user_id} = req.params
 
   const promises = [
-    checkUserExists(workout.workout_user),
-    insertWorkout(workout)
+    checkUserExists(user_id),
+    insertWorkout(workout, user_id)
   ]
   Promise.all(promises)
     .then((resolvedPromises)=>{
