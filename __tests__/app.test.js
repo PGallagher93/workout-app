@@ -134,3 +134,20 @@ describe("GET: /api/exercises", () => {
             })
     })
 })
+describe("POST: /api/users/1/workouts", () =>{
+    test("POST 201: returns  a 201 status and posted workout after successfull insertion", ()=>{
+        const inputWorkout = {
+            workout_name:"My Workout",
+            workout_user:1
+        }
+        return request(app)
+           .post("/users/1/workouts")
+           .send(inputWorkout)
+           .expect(201)
+           .then((res) => {
+            const {workout} = res.body
+            console.log(workout)
+           }) 
+
+    })
+})
