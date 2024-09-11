@@ -118,3 +118,10 @@ describe("GET: /api/user/workouts/:workout_id", () => {
             })
     })
 })
+describe("GET: /api/exercises", () => {
+    test("GET 200: returns an array of the available exercises", () =>{
+        return request(app)
+            .get("/api/exercises")
+            .expect(200)
+    })
+})
