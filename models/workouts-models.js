@@ -46,3 +46,7 @@ exports.checkWorkoutExists = (id) =>{
                     }
                 })
 }
+
+exports.insertWorkout = (id) => {
+    
+}
