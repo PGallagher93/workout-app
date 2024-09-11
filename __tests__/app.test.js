@@ -146,8 +146,12 @@ describe("POST: /api/users/1/workouts", () =>{
            .expect(201)
            .then((res) => {
             const {workout} = res.body
-            console.log(workout)
+            expect(workout[0]).toHaveProperty("workout_id", expect.any(Number))
+            expect(workout[0]).toHaveProperty("workout_name", expect.any(String))
+            expect(workout[0]).toHaveProperty("workout_user", expect.any(Number))
+            expect(workout[0]).toHaveProperty("is_premade", expect.any(Boolean))
            }) 
 
+           
     })
 })
