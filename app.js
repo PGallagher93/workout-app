@@ -3,6 +3,7 @@ const { getEndpoints } = require("./controllers/api-controller");
 const { getPremadeWorkouts, getWorkoutsByUserID, getWorkoutStatsByWorkoutID} = require("./controllers/workout-controllers");
 const {getExercises} = require("./controllers/exercise-controllers")
 const { handleCustomErrors, handleErrors } = require("./error-handlers");
+const {postWorkout} = require("./controllers/user-controllers")
 const app = express();
 
 app.use(express.json());
