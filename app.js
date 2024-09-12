@@ -15,6 +15,7 @@ app.get("/api/user/workouts/:workout_id", getWorkoutStatsByWorkoutID)
 app.get("/api/exercises", getExercises)
 
 app.post("/api/workouts/:user_id", postWorkout)
+app.post("/api/workouts/workout_stats/:workout_id", postWorkoutStats)
 
 app.use((req, res) => {
     
