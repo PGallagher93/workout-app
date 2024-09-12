@@ -42,6 +42,7 @@ exports.getWorkoutStatsByWorkoutID = (req, res, next) => {
 
 exports.postWorkoutStats = (req, res, next) => {
   const { workout_id } = req.params;
+  console.log(workout_id, "< id")
   const stats = req.body
   const promises = [
     checkWorkoutExists(workout_id),
@@ -51,6 +52,7 @@ exports.postWorkoutStats = (req, res, next) => {
 
 Promise.all(promises)
        .then((resolvedPromises) => {
+        
         res.status(201).send({workoutStats: resolvedPromises[1]})
-       })
+       }).catch(next)
 };

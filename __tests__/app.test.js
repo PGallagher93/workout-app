@@ -204,8 +204,8 @@ describe("POST: /api/users/1/workouts", () =>{
     })
 })
 
-describe("POST: /api/workouts/workout_stats/:workout_id", () => {
-    test.only("POST 201: returns a 201 status code and posted workout stats after successful insertion", () => {
+describe.only("POST: /api/workouts/workout_stats/:workout_id", () => {
+    test("POST 201: returns a 201 status code and posted workout stats after successful insertion", () => {
         const inputStats = [
             {exercise_id: 1,
             weight: 40,
@@ -224,7 +224,97 @@ describe("POST: /api/workouts/workout_stats/:workout_id", () => {
             .send(inputStats)
             .expect(201)
             .then((res)=>{
-                console.log(res.body, "< res")
+                const {workoutStats} = res.body
+                
+                expect(workoutStats).toHaveLength(2)
+                workoutStats.forEach((stat) =>{
+                    expect(stat).toHaveProperty("stat_id", expect.any(Number))
+                    expect(stat).toHaveProperty("exercise_id", expect.any(Number))
+                    expect(stat).toHaveProperty("weight", expect.any(Number))
+                    expect(stat).toHaveProperty("sets", expect.any(Number))
+                    expect(stat).toHaveProperty("reps", expect.any(Number))
+                    expect(stat).toHaveProperty("session", expect.any(Number))
+                    expect(stat).toHaveProperty("workout_id", expect.any(Number))
+                })
             })
     })
+    test("POST 404: returns 404 status code when given a valid workout id that doesnt exist", ()=>{
+        const inputStats = [
+            {exercise_id: 1,
+            weight: 40,
+            sets: 4,
+            reps: 5, 
+            session: 4,},
+            {exercise_id:31,
+             weight: 23,
+             sets: 4,
+             reps: 4,
+             session:5}
+        ]
+              
+        return request(app)
+             .post("/api/workouts/workout_stats/99999")
+             .expect(404)
+             .send(inputStats)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("POST 400: returns a 400 status code when given a id of the wrong data type", ()=>{
+        const inputStats = [
+            {exercise_id: 1,
+            weight: 40,
+            sets: 4,
+            reps: 5, 
+            session: 4,},
+            {exercise_id:31,
+             weight: 23,
+             sets: 4,
+             reps: 4,
+             session:5}
+        ]
+        return request(app)
+              .post("/api/workouts/workout_stats/hello")
+              .expect(400)
+              .send(inputStats)
+              .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("POST 400: returns a 400 status code when given an input with the wrong data type", ()=>{
+        const inputStats = [
+            {exercise_id: "ello",
+            weight: 40,
+            sets: 4,
+            reps: 5, 
+            session: 4,},
+            {exercise_id:31,
+             weight: 23,
+             sets: 4,
+             reps: 4,
+             session:5}
+        ]
+        return request(app)
+              .post("/api/workouts/workout_stats/1")
+              .send(inputStats)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("POST 400: returns a 400 status code when given an empty input", ()=>{
+        const inputStats = {}
+        return request(app)
+              .post("/api/workouts/workout_stats/1")
+              .send(inputStats)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+              })
+    })
+
 })
