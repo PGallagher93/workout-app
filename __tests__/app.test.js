@@ -203,3 +203,25 @@ describe("POST: /api/users/1/workouts", () =>{
             })
     })
 })
+
+describe("POST: /api/workouts/workout_stats/:workout_id", () => {
+    test.only("POST 201: returns a 201 status code and posted workout stats after successful insertion", () => {
+        const inputStats = [
+            {exercise_id: 1,
+            weight: 40,
+            sets: 4,
+            reps: 5, 
+            session: 4,},
+            {exercise_id:31,
+             weight: 23,
+             sets: 4,
+             reps: 4,
+             session:5}
+        ]
+
+        return request(app)
+            .post("/api/workouts/workout_stats/1")
+            .send(inputStats)
+            .expect(201)
+    })
+})
