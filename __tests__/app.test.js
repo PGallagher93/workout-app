@@ -223,5 +223,8 @@ describe("POST: /api/workouts/workout_stats/:workout_id", () => {
             .post("/api/workouts/workout_stats/1")
             .send(inputStats)
             .expect(201)
+            .then((res)=>{
+                console.log(res.body, "< res")
+            })
     })
 })

@@ -51,6 +51,6 @@ exports.postWorkoutStats = (req, res, next) => {
 
 Promise.all(promises)
        .then((resolvedPromises) => {
-        res.status(201).send({workoutStats: resolvedPromises[0]})
+        res.status(201).send({workoutStats: resolvedPromises[1]})
        })
 };
