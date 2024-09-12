@@ -42,7 +42,7 @@ exports.getWorkoutStatsByWorkoutID = (req, res, next) => {
 
 exports.postWorkoutStats = (req, res, next) => {
   const { workout_id } = req.params;
-  console.log(workout_id, "< id")
+  
   const stats = req.body
   const promises = [
     checkWorkoutExists(workout_id),
