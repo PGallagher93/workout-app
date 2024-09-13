@@ -12,8 +12,8 @@ exports.addExerciseID = (exerciseData) =>{
     return formattedData
 }
 
-exports.findExerciseID = (workoutStatsData, formattedExerciseData) => {
-    let formattedData = workoutStatsData.map((workout) => {
+exports.findExerciseID = (data, formattedExerciseData) => {
+    let formattedData = data.map((workout) => {
         
         formattedExerciseData.forEach((exercise) => {
             

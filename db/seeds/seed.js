@@ -3,7 +3,7 @@ const format = require('pg-format'
 )
 const {addExerciseID, findExerciseID, hashPassword} = require("./seed-utils")
 
-function seed ({userData, exerciseData, workoutsData, workoutStatsData }) {
+function seed ({userData, exerciseData, workoutsData, workoutStatsData, exerciseRecordsData }) {
   
     return db.query("DROP TABLE IF EXISTS workout_stats;")
     .then(()=>{
@@ -87,6 +87,20 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData }) {
             ])
         )
         return db.query(insertWorkoutStatsQueryStr)
+    })
+    .then(() => {
+            const formattedExerciseData = addExerciseID(exerciseData)
+            const formattedExerciseRecordsData = findExerciseID(exerciseRecordsData, formattedExerciseData)
+
+            const insertExerciseRecordsqueryStr = format(
+                `INSERT INTO exercise_records (exercise_id, weight, user_id) VALUES %L`,
+                formattedExerciseRecordsData.map(({exercise_id, weight, user_id})=>[
+                    exercise_id,
+                    weight,
+                    user_id
+                ])
+            )
+            return db.query(insertExerciseRecordsqueryStr)
     })
 }
 function createUsers() {
