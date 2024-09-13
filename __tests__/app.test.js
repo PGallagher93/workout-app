@@ -204,7 +204,7 @@ describe("POST: /api/users/1/workouts", () =>{
     })
 })
 
-describe.only("POST: /api/workouts/workout_stats/:workout_id", () => {
+describe("POST: /api/workouts/workout_stats/:workout_id", () => {
     test("POST 201: returns a 201 status code and posted workout stats after successful insertion", () => {
         const inputStats = [
             {exercise_id: 1,
@@ -317,4 +317,12 @@ describe.only("POST: /api/workouts/workout_stats/:workout_id", () => {
               })
     })
 
+})
+
+describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
+    test.only("GET 200: returns an array of the exercise records", () =>{
+        return request(app)
+             .get("/api/user/1/exercise_records/1")
+             .expect(200)
+    })
 })
