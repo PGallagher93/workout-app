@@ -320,9 +320,76 @@ describe("POST: /api/workouts/workout_stats/:workout_id", () => {
 })
 
 describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
-    test.only("GET 200: returns an array of the exercise records", () =>{
+    test("GET 200: returns an array of the exercise records", () =>{
         return request(app)
              .get("/api/user/1/exercise_records/1")
              .expect(200)
+             .then((res)=>{
+                const {exerciseRecords} = res.body
+                
+                expect(exerciseRecords).toHaveLength(2)
+                exerciseRecords.forEach((exerciseRecord)=>{
+                    expect(exerciseRecord).toHaveProperty("record_id", expect.any(Number))
+                    expect(exerciseRecord).toHaveProperty("exercise_id", expect.any(Number))
+                    expect(exerciseRecord).toHaveProperty("weight", expect.any(Number))
+                    expect(exerciseRecord).toHaveProperty("created_at", expect.any(String))
+                    expect(exerciseRecord).toHaveProperty("user_id", expect.any(Number))
+                })
+             })
     })
+    test("GET 404: returns a 404 status code when given a valid user ID that doesnt exist", ()=>{
+        return request(app)
+             .get("/api/user/9999/exercise_records/1")
+             .expect(404)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("GET 404: returns a 404 status code when given a exercise ID that doesnt exist", ()=>{
+        return request(app)
+             .get("/api/user/1/exercise_records/9999")
+             .expect(404)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("GET 404: returns a 400 status code when given a valid user ID that has no exercise records available", ()=>{
+        return request(app)
+             .get("/api/user/2/exercise_records/1")
+             .expect(404)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("GET 404: returns a 404 status code when given a valid exercise ID for which the user has no records", ()=>{
+        return request(app)
+             .get("/api/user/1/exercise_records/5")
+             .expect(404)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+             })
+    })
+    test("GET 400: returns a 400 status code when given a user ID of an invalid type", ()=>{
+        return request(app)
+             .get("/api/user/hello/exercise_records/1")
+             .expect(400)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+             })
+    })
+    test("GET 400: returns a 400 status code when given a exercise ID of an invalid type", ()=>{
+        return request(app)
+             .get("/api/user/1/exercise_records/ello")
+             .expect(400)
+             .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+             })
+    })
+    
 })
