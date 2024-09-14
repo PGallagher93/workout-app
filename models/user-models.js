@@ -19,18 +19,26 @@ exports.checkUserExists = (id) => {
 exports.checkUserPassword = (credentials) => {
   const { password, username } = credentials;
     return db.query(
-        `SELECT password
+        `SELECT *
         from users
         WHERE username = $1`,
         [username]
     ).then(({rows}) => {
         const userPass = rows[0].password
-        return checkHashedPassword(password, userPass)
+        const promises = [checkHashedPassword("cheese", userPass), 
+                          rows[0].user_id]
+        const userInfo = Promise.all(promises).then((resolvedPromises) =>{
+            return resolvedPromises
+        })
+       return userInfo
     }).then((loginResult) => {
-        if (!loginResult){
+        
+        if (!loginResult[0]){
+           
             return Promise.reject({status:401, msg: "not authorised"})
         }
         //else send token
+        console.log(loginResult, ",user")
     })
      
 
