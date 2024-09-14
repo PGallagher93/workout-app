@@ -1,5 +1,5 @@
 const db = require("../db/connection");
-const { hashPassword } = require("../utils");
+const { checkHashedPassword } = require("../utils");
 
 exports.checkUserExists = (id) => {
   return db
@@ -18,10 +18,22 @@ exports.checkUserExists = (id) => {
 
 exports.checkUserPassword = (credentials) => {
   const { password, username } = credentials;
-  const promises = [hashPassword(password)]
-  Promise.all(promises).then((resolvedPromises) => {
-    console.log(resolvedPromises[0], "yes")
-  })
+    return db.query(
+        `SELECT password
+        from users
+        WHERE username = $1`,
+        [username]
+    ).then(({rows}) => {
+        const userPass = rows[0].password
+        return checkHashedPassword(password, userPass)
+    }).then((loginResult) => {
+        if (!loginResult){
+            return Promise.reject({status:401, msg: "not authorised"})
+        }
+        //else send token
+    })
+     
+
 
 };
 

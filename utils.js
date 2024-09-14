@@ -3,12 +3,12 @@ const bcrypt = require('bcrypt')
 exports.checkPassword = (credentials) =>{
 
 }
-exports.hashPassword = (password) => {
+exports.checkHashedPassword = (password, userPass) => {
     
     
 
    
-     return  bcrypt.hash(password, 10)
+     return  bcrypt.compare(password, userPass)
     
 }
 
