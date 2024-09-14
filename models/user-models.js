@@ -25,7 +25,7 @@ exports.checkUserPassword = (credentials) => {
         [username]
     ).then(({rows}) => {
         const userPass = rows[0].password
-        const promises = [checkHashedPassword("cheese", userPass), 
+        const promises = [checkHashedPassword(password, userPass), 
                           rows[0].user_id]
         const userInfo = Promise.all(promises).then((resolvedPromises) =>{
             return resolvedPromises
