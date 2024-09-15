@@ -394,7 +394,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test.only("POST 200: returns a 200 status code", () =>{
+    test("POST 200: returns a 200 status code", () =>{
         const inputCredentials = [{
             password: "TheEmperorSucks",
             username:"Kharn"
@@ -411,5 +411,59 @@ describe("POST: /api/user/login", () => {
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))
             })
+    })
+    test("POST 404: returns a 404 status code and not found message if username does not exist", ()=>{
+        const inputCredentials = [{
+            password: "TheEmperorSucks",
+            username:"Horus"
+        }]
+
+        return request(app)
+               .post("/api/user/login")
+               .send(inputCredentials)
+               .expect(404)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+               })
+    })
+    test("POST 401: returns a 401 status code and a not authorised msg if password is incorrect", ()=>{
+        const inputCredentials = [{
+            password: "TheEmperor",
+            username:"Kharn"
+        }]
+        return request(app)
+               .post("/api/user/login")
+               .send(inputCredentials)
+               .expect(401)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not authorised")
+               })
+    })
+    test("POST 400: returns a 400 status code and a bad request msg if send obj with incorrect keys", ()=>{
+        const inputCredentials = [{
+            pass: "TheEmperor",
+            username:"Kharn"
+        }]
+        return request(app)
+               .post("/api/user/login")
+               .send(inputCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+    test("POST 400: returns a 400 status code and bad request message if given empty input", ()=>{
+        const inputCredentials = {}
+        return request(app)
+               .post("/api/user/login")
+               .send(inputCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
     })
 })

@@ -50,7 +50,10 @@ exports.checkUserPassword = (credentials) => {
 
 
 
-exports.checkUsernameExists = (username) => {
+exports.checkUsernameExists = (credentials) => {
+   
+    const {username} = credentials
+    
   return db
     .query(
         `SELECT * 
