@@ -38,4 +38,9 @@ exports.postLogin = (req, res, next) => {
   const promises = [
     checkUsernameExists(credentials.username),
     checkUserPassword(credentials)]
+
+  Promise.all(promises)
+         .then((resolvedPromises)=>{
+          console.log(resolvedPromises, "< promises")
+         })
 }
