@@ -404,5 +404,12 @@ describe("POST: /api/user/login", () => {
             .post("/api/user/login")
             .send(inputCredentials)
             .expect(200)
+            .then((res)=>{
+                const {userDetails} = res.body
+
+                expect(userDetails).toHaveProperty("id", expect.any(Number))
+                expect(userDetails).toHaveProperty("username", expect.any(String))
+                expect(userDetails).toHaveProperty("token", expect.any(String))
+            })
     })
 })
