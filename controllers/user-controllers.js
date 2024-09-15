@@ -41,6 +41,7 @@ exports.postLogin = (req, res, next) => {
 
   Promise.all(promises)
          .then((resolvedPromises)=>{
-          console.log(resolvedPromises, "< promises")
+          
+          res.status(200).send({userDetails: resolvedPromises[1]})
          })
 }

@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const { checkHashedPassword } = require("../utils");
+const jwt = require('jsonwebtoken')
 
 exports.checkUserExists = (id) => {
   return db
@@ -38,12 +39,16 @@ exports.checkUserPassword = (credentials) => {
             return Promise.reject({status:401, msg: "not authorised"})
         }
         //else send token
-        console.log(loginResult, ",user")
+         const token = jwt.sign({id:loginResult[1], username:username}, process.env.JWT_SECRET)
+
+         return {id: loginResult[1], username, token}
     })
      
 
 
 };
+
+
 
 exports.checkUsernameExists = (username) => {
   return db

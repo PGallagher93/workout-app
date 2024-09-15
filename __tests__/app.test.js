@@ -394,7 +394,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test.only("POST 201: returns a 201 status code", () =>{
+    test.only("POST 200: returns a 200 status code", () =>{
         const inputCredentials = [{
             password: "TheEmperorSucks",
             username:"Kharn"
@@ -403,6 +403,6 @@ describe("POST: /api/user/login", () => {
         return request(app)
             .post("/api/user/login")
             .send(inputCredentials)
-            .expect(201)
+            .expect(200)
     })
 })
