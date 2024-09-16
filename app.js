@@ -23,6 +23,7 @@ app.get("/api/user/:user_id/exercise_records/:exercise_id", getExerciseRecords)
 app.post("/api/user/login", postLogin)
 app.post("/api/workouts/:user_id", postWorkout);
 app.post("/api/workouts/workout_stats/:workout_id", postWorkoutStats);
+app.post("/ap/user/sign_up", postNewUser)
 
 app.use((req, res) => {
   res.status(404).send({ msg: "not found" });

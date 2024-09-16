@@ -67,3 +67,21 @@ exports.checkUsernameExists = (credentials) => {
         }
     })
 };
+
+exports.checkUniqueUsername = (username) => {
+    return db
+      .query(
+        `SELECT *
+        FROM users
+        WHERE username = $1`,
+        [username]
+      ).then(({rows}) => {
+        if(rows.length){
+            return Promise.reject({status: 403, msg: "forbidden"})
+        }
+      })
+}
+
+exports.inserNewUSer = (username, password) => {
+    console.log(username, password, "< creds")
+}

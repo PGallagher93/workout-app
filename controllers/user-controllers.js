@@ -1,8 +1,8 @@
 const {insertWorkout} = require("../models/workouts-models")
-const {checkUserExists} = require("../models/user-models")
+const {checkUserExists, checkUniqueUsername} = require("../models/user-models")
 const {checkExerciseExists} = require("../models/exercise-models")
 const {getExerciseRecordsByUserAndExerciseID} = require("../models/exercise-records-models")
-const {checkUserPassword, checkUsernameExists} = require("../models/user-models")
+const {checkUserPassword, checkUsernameExists, checkUniqueUsername} = require("../models/user-models")
 exports.postWorkout = (req, res, next) => {
   const workout = req.body
   const {user_id} = req.params
@@ -44,4 +44,12 @@ exports.postLogin = (req, res, next) => {
           
           res.status(200).send({userDetails: resolvedPromises[1]})
          }).catch(next)
+}
+
+exports.postNewUsed = (req, res, next) => {
+    const {username, password} = req.boy
+    const promises = [
+      checkUniqueUsername(username),
+      insertNewUser(username, password)
+    ]
 }
