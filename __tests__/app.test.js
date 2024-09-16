@@ -405,6 +405,7 @@ describe("POST: /api/user/login", () => {
             .send(inputCredentials)
             .expect(200)
             .then((res)=>{
+               
                 const {userDetails} = res.body
 
                 expect(userDetails).toHaveProperty("id", expect.any(Number))
@@ -465,5 +466,18 @@ describe("POST: /api/user/login", () => {
                 const {msg} = body
                 expect(msg).toBe("bad request")
                })
+    })
+})
+
+describe("POST: /api/user/sign_up", () => {
+    test.skip("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
+        const inputUserCredentials = {
+            username: "Vulcan",
+            password: "GOSALAMANDERS!"
+        }
+        return request(app)
+              .post("/api/user/sign_up")
+              .send(inputUserCredentials)
+              .expect(201)
     })
 })

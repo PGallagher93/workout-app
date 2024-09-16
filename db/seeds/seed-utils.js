@@ -27,10 +27,12 @@ exports.findExerciseID = (data, formattedExerciseData) => {
     })
     return formattedData
 }
-exports.hashPassword = (userData) => {
-       const hashedUsers = userData.map((user) => {
+exports.hashPassword = (userInfo) => {
+    
+       const hashedUsers = userInfo.map((user) => {
         
         return user.password = bcrypt.hash(user.password, 10)
        })
+       
        return Promise.all(hashedUsers)
 }

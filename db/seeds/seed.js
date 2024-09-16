@@ -4,7 +4,9 @@ const format = require('pg-format'
 const {addExerciseID, findExerciseID, hashPassword} = require("./seed-utils")
 
 function seed ({userData, exerciseData, workoutsData, workoutStatsData, exerciseRecordsData }) {
-  
+    
+    const newUserData = JSON.parse(JSON.stringify(userData))
+     
     return db.query("DROP TABLE IF EXISTS workout_stats;")
     .then(()=>{
         return db.query(`DROP TABLE IF EXISTS exercise_records;`)
@@ -33,17 +35,18 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
     .then(()=>{
         return createExerciseRecords()
     }).then(()=>{
-        return hashPassword(userData)
+        return hashPassword(newUserData)
     }).then((hashedPasswords)=>{
-        for(let i = 0; i< userData.length; i++){
-            userData[i].password = hashedPasswords[i]
+        
+        for(let i = 0; i< newUserData.length; i++){
+            newUserData[i].password = hashedPasswords[i]
         }
         
     })
     .then(() => {
         const insertUsersQueryStr = format(
             'INSERT into users (username, password) values %L;',
-            userData.map(({username, password}) => [
+            newUserData.map(({username, password}) => [
                 username,
                 password
             ])
