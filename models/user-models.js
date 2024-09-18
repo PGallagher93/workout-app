@@ -1,5 +1,5 @@
 const db = require("../db/connection");
-const { checkHashedPassword } = require("../utils");
+const { checkHashedPassword, hashNewPassword } = require("../utils");
 const jwt = require('jsonwebtoken')
 
 exports.checkUserExists = (id) => {
@@ -86,5 +86,25 @@ exports.checkUniqueUsername = (username) => {
 }
 
 exports.insertNewUser = (username, password) => {
-    console.log(username, password, "< creds")
+   
+
+    const promises = [hashNewPassword(password)]
+
+    return Promise.all(promises)
+           .then((resolvedPromises) => {
+            const hashedPassword = resolvedPromises[0]
+            
+            return db
+                .query(
+                    `INSERT into
+                     users
+                    (username, password)
+                    values
+                    ($1, $2)
+                    returning * `,
+                    [username, hashedPassword]
+                )
+           }).then(({rows}) => {
+            return rows
+           })
 }

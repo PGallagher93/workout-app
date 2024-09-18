@@ -10,3 +10,10 @@ exports.checkHashedPassword = (password, userPass) => {
     
 }
 
+exports.hashNewPassword = (password) => {
+    
+   
+    return bcrypt.hash(password, 10)
+    
+    
+}

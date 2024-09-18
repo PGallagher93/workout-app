@@ -53,11 +53,17 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postNewUser = (req, res, next) => {
-  console.log(req.body, "< body");
+  
   const { username, password } = req.body;
 
   const promises = [
     checkUniqueUsername(username),
     insertNewUser(username, password),
   ];
+
+  Promise.all(promises)
+  .then((resolvedPromises) => {
+    
+    res.status(201).send({userDetails: resolvedPromises[1]})
+  }).catch(next)
 };
