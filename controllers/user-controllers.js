@@ -64,6 +64,6 @@ exports.postNewUser = (req, res, next) => {
   Promise.all(promises)
   .then((resolvedPromises) => {
     
-    res.status(201).send({userDetails: resolvedPromises[1]})
+    res.status(201).send({userDetails: resolvedPromises[1][0]})
   }).catch(next)
 };
