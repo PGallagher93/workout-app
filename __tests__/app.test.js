@@ -470,7 +470,7 @@ describe("POST: /api/user/login", () => {
 })
 
 describe("POST: /api/user/sign_up", () => {
-    test.only("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
+    test("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
         const inputUserCredentials = {
             username: "Vulcan",
             password: "GOSALAMANDERS!"
@@ -487,5 +487,82 @@ describe("POST: /api/user/sign_up", () => {
                 expect(userDetails).toHaveProperty("password", expect.any(String))
                 
               })
+    })
+    test("POST 403: returns a status code and forbidden message if username already exists ", ()=>{
+        const inputUserCredentials = {
+            username:"Kharn",
+            password:"I LOVE KHORNE"
+        }
+
+        return request(app)
+               .post("/api/user/sign_up")
+               .send(inputUserCredentials)
+               .expect(403)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("forbidden")
+               })
+
+    })
+    test("POST 400: returns a 400 status code and bad request message if sent an object with incorrect keys ", ()=>{
+        const inputUserCredentials = {
+            user:"Vulcan",
+            pass:"GOSALAMANDERS!"
+        }
+
+        return request(app)
+               .post("/api/user/sign_up")
+               .send(inputUserCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+
+    })
+    test("POST 400: returns a 400 status code and bad request message if sent an empty object ", ()=>{
+        const inputUserCredentials = {}
+
+        return request(app)
+               .post("/api/user/sign_up")
+               .send(inputUserCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+
+    })
+    test("POST 400: returns a 400 status code and bad request message if sent an object missing a key ", ()=>{
+        const inputUserCredentials = {
+            
+            password: "GOSALAMANDERS!"
+        }
+
+        return request(app)
+               .post("/api/user/sign_up")
+               .send(inputUserCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+
+    })
+    test("POST 400: returns a 400 status code and bad request message if sent an object with an empty string for username ", ()=>{
+        const inputUserCredentials = {
+            username:"",
+            password: "GOSALAMANDERS!"
+        }
+
+        return request(app)
+               .post("/api/user/sign_up")
+               .send(inputUserCredentials)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+
     })
 })

@@ -55,7 +55,7 @@ exports.postLogin = (req, res, next) => {
 exports.postNewUser = (req, res, next) => {
   
   const { username, password } = req.body;
-
+ 
   const promises = [
     checkUniqueUsername(username),
     insertNewUser(username, password),

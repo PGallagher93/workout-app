@@ -72,6 +72,9 @@ exports.checkUsernameExists = (credentials) => {
 };
 
 exports.checkUniqueUsername = (username) => {
+    if(username === ""){
+        return Promise.reject({status: 400, msg: "bad request"})
+    }
     return db
       .query(
         `SELECT *
