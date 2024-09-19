@@ -682,6 +682,17 @@ describe("PATCH 200: /api/user/workouts/workout_stats", () => {
             .patch("/api/user/workouts/workout_stats")
             .send(inputStat)
             .expect(200)
+            .then((res) => {
+                const {workoutStat} = res.body
+
+                expect(workoutStat).toHaveProperty("stat_id", expect.any(Number))
+                expect(workoutStat).toHaveProperty("exercise_id", expect.any(Number))
+                expect(workoutStat).toHaveProperty("weight", expect.any(Number))
+                expect(workoutStat).toHaveProperty("sets", expect.any(Number))
+                expect(workoutStat).toHaveProperty("reps", expect.any(Number))
+                expect(workoutStat).toHaveProperty("session", expect.any(Number))
+                expect(workoutStat).toHaveProperty("workout_id", expect.any(Number))
+            })
         
     })
 })

@@ -71,6 +71,6 @@ exports.patchWorkoutStats = (req, res, next) => {
   Promise.all(promises)
          .then((resolvedPromises) => {
           
-          res.status(200).send({workoutStat: resolvedPromises[1]})
+          res.status(200).send({workoutStat: resolvedPromises[1][0]})
          })
 }
