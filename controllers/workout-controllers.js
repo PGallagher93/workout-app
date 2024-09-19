@@ -56,3 +56,8 @@ Promise.all(promises)
         res.status(201).send({workoutStats: resolvedPromises[1]})
        }).catch(next)
 };
+
+exports.patchWorkoutStats = (req, res, next) => {
+  const stats = req.body
+  console.log(stats, "< the stats")
+}

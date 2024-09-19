@@ -4,7 +4,8 @@ const {
   getPremadeWorkouts,
   getWorkoutsByUserID,
   getWorkoutStatsByWorkoutID,
-  postWorkoutStats
+  postWorkoutStats,
+  patchWorkoutStats
 } = require("./controllers/workout-controllers");
 const { getExercises } = require("./controllers/exercise-controllers");
 const { handleCustomErrors, handleErrors } = require("./error-handlers");
@@ -25,6 +26,8 @@ app.post("/api/workouts/:user_id", postWorkout);
 app.post("/api/workouts/workout_stats/:workout_id", postWorkoutStats);
 app.post("/api/user/sign_up", postNewUser)
 app.post("/api/user/:user_id/exercise_records", postExerciseRecord)
+
+app.patch("/api/user/workouts/workout_stats", patchWorkoutStats)
 
 app.use((req, res) => {
   res.status(404).send({ msg: "not found" });
