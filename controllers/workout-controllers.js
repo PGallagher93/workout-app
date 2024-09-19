@@ -4,7 +4,9 @@ const {
   findWorkoutsByUserID,
   checkWorkoutExists,
   findWorkoutStatsByWorkoutID,
-  insertWorkoutStats
+  insertWorkoutStats,
+  checkWorkoutStatExists,
+  updateWorkoutStat
 } = require("../models/workouts-models");
 
 exports.getPremadeWorkouts = (req, res, next) => {
@@ -59,5 +61,16 @@ Promise.all(promises)
 
 exports.patchWorkoutStats = (req, res, next) => {
   const stats = req.body
-  console.log(stats, "< the stats")
+  const {stat_id, weight} = stats
+  
+  const promises = [
+    checkWorkoutStatExists(stat_id),
+    updateWorkoutStat(stat_id, weight)
+  ]
+
+  Promise.all(promises)
+         .then((resolvedPromises) => {
+          
+          res.status(200).send({workoutStat: resolvedPromises[1]})
+         })
 }

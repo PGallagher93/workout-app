@@ -102,4 +102,35 @@ exports.insertWorkoutStats = (stats, id) => {
 
 }
 
-exports.insertWorkoutStats
+exports.checkWorkoutStatExists = (id) => {
+
+  return db
+      .query(
+        `SELECT * 
+        FROM
+        workout_stats
+        WHERE 
+        stat_id = $1
+        `, 
+        [id]
+      ).then(({rows})=> {
+        if(!rows.length) {
+          return Promise.reject({status:404, msg: "not found"})
+        }
+      })
+}
+
+exports.updateWorkoutStat = (id, weight) => {
+
+    return db
+         .query(
+          `UPDATE workout_stats
+          SET weight = $1
+          WHERE stat_id = $2
+          returning *`,
+          [weight, id]
+         ).then(({rows}) => {
+          return rows
+         })
+
+}
