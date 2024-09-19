@@ -577,5 +577,14 @@ describe("POST 201:/api/user/:user_id/exercise_records", () => {
               .post("/api/user/1/exercise_records")
               .send(inputRecord)
               .expect(201)
+              .then((res)=>{
+                const {recordDetails} = res.body
+                
+                expect(recordDetails).toHaveProperty("record_id", expect.any(Number))
+                expect(recordDetails).toHaveProperty("exercise_id", expect.any(Number))
+                expect(recordDetails).toHaveProperty("weight", expect.any(Number))
+                expect(recordDetails).toHaveProperty("created_at", expect.any(String))
+                expect(recordDetails).toHaveProperty("user_id", expect.any(Number))
+              })
     })
 })
