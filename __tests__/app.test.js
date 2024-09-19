@@ -670,3 +670,18 @@ describe("POST 201:/api/user/:user_id/exercise_records", () => {
     })
     
 })
+
+describe("PATCH 200: /api/user/workouts/workout_stats", () => {
+    test.only("PATCH 200: returns a 200 status code and the updated workoutstats after successful patching", () => {
+        const inputStat = {
+            stat_id: 1,
+            weight:65
+        }
+
+        return request(app)
+            .patch("/api/user/workouts/workout_stats")
+            .send(inputStat)
+            .expect(200)
+        
+    })
+})
