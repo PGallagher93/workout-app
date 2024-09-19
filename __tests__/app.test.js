@@ -394,7 +394,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test.only("POST 200: returns a 200 status code", () =>{
+    test("POST 200: returns a 200 status code", () =>{
         const inputCredentials = [{
             password: "TheEmperorSucks",
             username:"Kharn"
@@ -568,7 +568,7 @@ describe("POST: /api/user/sign_up", () => {
 })
 
 describe("POST 201:/api/user/:user_id/exercise_records", () => {
-    test.only("POST 201: returns a 201 status code and inserted record after a successful post", () => {
+    test("POST 201: returns a 201 status code and inserted record after a successful post", () => {
         const inputRecord = {
             exercise_id: 1,
             weight: 70
@@ -587,4 +587,86 @@ describe("POST 201:/api/user/:user_id/exercise_records", () => {
                 expect(recordDetails).toHaveProperty("user_id", expect.any(Number))
               })
     })
+    test("POST 404: returns a 404 status code and error msg when given a user id that doesnt exist in the database", ()=>{
+        const inputRecord = {
+            exercise_id: 1, 
+            weight:70
+        }
+        return request(app)
+            .post("/api/user/9999/exercise_records")
+            .expect(404)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not found")
+            })
+    })
+    test("POST 400: returns a 404 status code and error msg when given a user id of invalid data type", ()=>{
+        const inputRecord = {
+            exercise_id: 1, 
+            weight:70
+        }
+        return request(app)
+            .post("/api/user/hello/exercise_records")
+            .expect(400)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    test("POST 404: returns a 404 status code and error msg when given a user exercise id that doesnt exist in the database", ()=>{
+        const inputRecord = {
+            exercise_id: 99999, 
+            weight:70
+        }
+        return request(app)
+            .post("/api/user/1/exercise_records")
+            .expect(404)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not found")
+            })
+    })
+    test("POST 400: returns a 400 status code and error msg when given an input with incorrect data type", ()=>{
+        const inputRecord = {
+            exercise_id: "hey", 
+            weight:70
+        }
+        return request(app)
+            .post("/api/user/1/exercise_records")
+            .expect(400)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    test("POST 400: returns a 400 status code and error msg when given an input with incorrect keys", ()=>{
+        const inputRecord = {
+            yip: 1, 
+            what:70
+        }
+        return request(app)
+            .post("/api/user/1/exercise_records")
+            .expect(400)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    test("POST 400: returns a 400 status code and error msg when given an empty input", ()=>{
+        const inputRecord = {}
+        return request(app)
+            .post("/api/user/1/exercise_records")
+            .expect(400)
+            .send(inputRecord)
+            .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            })
+    })
+    
 })

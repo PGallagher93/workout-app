@@ -11,6 +11,7 @@ exports.readExercises = () => {
 }
 
 exports.checkExerciseExists = (id) => {
+    
     return db
         .query(
             `SELECT * 

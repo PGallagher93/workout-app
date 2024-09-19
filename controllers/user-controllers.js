@@ -73,6 +73,9 @@ exports.postNewUser = (req, res, next) => {
 exports.postExerciseRecord = (req, res, next) => {
   const {user_id} = req.params
   const {weight, exercise_id} = req.body
+  if(!weight|| !exercise_id) {
+    res.status(400).send({msg: "bad request"})
+  }
 
   const promises = [
     checkUserExists(user_id),
@@ -84,5 +87,5 @@ exports.postExerciseRecord = (req, res, next) => {
     .then((resolvedPromises) => {
       
       res.status(201).send({recordDetails: resolvedPromises[2][0]})
-    })
+    }).catch(next)
 }
