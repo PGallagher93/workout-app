@@ -566,3 +566,16 @@ describe("POST: /api/user/sign_up", () => {
 
     })
 })
+
+describe("POST 201:/api/user/:user_id/exercise_records", () => {
+    test.only("POST 201: returns a 201 status code and inserted record after a successful post", () => {
+        const inputRecord = {
+            exercise_id: 1,
+            weight: 70
+        }
+        return request(app)
+              .post("/api/user/1/exercise_records")
+              .send(inputRecord)
+              .expect(201)
+    })
+})

@@ -75,7 +75,7 @@ exports.postExerciseRecord = (req, res, next) => {
 
   const promises = [
     checkUserExists(user_id),
-    checkExerciseExists(exercise_id)
-    insertExerciseRecord(weight, exercise_id)
+    checkExerciseExists(exercise_id),
+    insertExerciseRecord(weight, exercise_id, user_id)
   ]
 }

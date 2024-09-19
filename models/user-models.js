@@ -112,6 +112,6 @@ exports.insertNewUser = (username, password) => {
            })
 }
 
-exports.insertExerciseRecord = (weight, id) =>{
-           console.log(weight, id, "details ")
+exports.insertExerciseRecord = (weight, exerciseID, userID) =>{
+           console.log(weight, exerciseID, userID, "details ")
 }
