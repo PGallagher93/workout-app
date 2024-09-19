@@ -48,6 +48,7 @@ exports.postLogin = (req, res, next) => {
 
   Promise.all(promises)
     .then((resolvedPromises) => {
+    
       res.status(200).send({ userDetails: resolvedPromises[1] });
     })
     .catch(next);
@@ -78,4 +79,10 @@ exports.postExerciseRecord = (req, res, next) => {
     checkExerciseExists(exercise_id),
     insertExerciseRecord(weight, exercise_id, user_id)
   ]
+
+  Promise.all(promises)
+    .then((resolvedPromises) => {
+      
+      res.status(201).send({recordDetails: resolvedPromises[2][0]})
+    })
 }

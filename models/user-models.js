@@ -114,4 +114,16 @@ exports.insertNewUser = (username, password) => {
 
 exports.insertExerciseRecord = (weight, exerciseID, userID) =>{
            console.log(weight, exerciseID, userID, "details ")
+           return db
+               .query(
+                `INSERT into
+                 exercise_records
+                 (exercise_id, weight, user_id)
+                 VALUES
+                 ($1, $2, $3)
+                 returning *`,
+                 [exerciseID, weight, userID]
+               ).then(({rows})=>{
+                return rows
+               })
 }
