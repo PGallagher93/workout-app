@@ -9,6 +9,7 @@ const {
   checkUserExists,
   checkUniqueUsername,
   insertNewUser,
+  insertExerciseRecord
 } = require("../models/user-models");
 exports.postWorkout = (req, res, next) => {
   const workout = req.body;
@@ -67,3 +68,14 @@ exports.postNewUser = (req, res, next) => {
     res.status(201).send({userDetails: resolvedPromises[1][0]})
   }).catch(next)
 };
+
+exports.postExerciseRecord = (req, res, next) => {
+  const {user_id} = req.params
+  const {weight, exercise_id} = req.body
+
+  const promises = [
+    checkUserExists(user_id),
+    checkExerciseExists(exercise_id)
+    insertExerciseRecord(weight, exercise_id)
+  ]
+}

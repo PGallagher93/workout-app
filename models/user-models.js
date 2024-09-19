@@ -111,3 +111,7 @@ exports.insertNewUser = (username, password) => {
             return rows
            })
 }
+
+exports.insertExerciseRecord = (weight, id) =>{
+           console.log(weight, id, "details ")
+}
