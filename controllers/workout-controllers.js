@@ -61,7 +61,13 @@ Promise.all(promises)
 
 exports.patchWorkoutStats = (req, res, next) => {
   const stats = req.body
+  
   const {stat_id, weight} = stats
+
+  if(!stat_id || !weight) {
+    res.status(400).send({msg: "bad request"})
+  }
+
   
   const promises = [
     checkWorkoutStatExists(stat_id),
@@ -72,5 +78,5 @@ exports.patchWorkoutStats = (req, res, next) => {
          .then((resolvedPromises) => {
           
           res.status(200).send({workoutStat: resolvedPromises[1][0]})
-         })
+         }).catch(next)
 }

@@ -672,7 +672,7 @@ describe("POST 201:/api/user/:user_id/exercise_records", () => {
 })
 
 describe("PATCH 200: /api/user/workouts/workout_stats", () => {
-    test.only("PATCH 200: returns a 200 status code and the updated workoutstats after successful patching", () => {
+    test("PATCH 200: returns a 200 status code and the updated workoutstats after successful patching", () => {
         const inputStat = {
             stat_id: 1,
             weight:65
@@ -694,5 +694,117 @@ describe("PATCH 200: /api/user/workouts/workout_stats", () => {
                 expect(workoutStat).toHaveProperty("workout_id", expect.any(Number))
             })
         
+    })
+    test("PATCH 200: returns a 200 status code and the updated workoutstats after successful patching when sending object with an extra key", () => {
+        const inputStat = {
+            stat_id: 1,
+            weight:65,
+            extra: "key"
+        }
+
+        return request(app)
+            .patch("/api/user/workouts/workout_stats")
+            .send(inputStat)
+            .expect(200)
+            .then((res) => {
+                const {workoutStat} = res.body
+
+                expect(workoutStat).toHaveProperty("stat_id", expect.any(Number))
+                expect(workoutStat).toHaveProperty("exercise_id", expect.any(Number))
+                expect(workoutStat).toHaveProperty("weight", expect.any(Number))
+                expect(workoutStat).toHaveProperty("sets", expect.any(Number))
+                expect(workoutStat).toHaveProperty("reps", expect.any(Number))
+                expect(workoutStat).toHaveProperty("session", expect.any(Number))
+                expect(workoutStat).toHaveProperty("workout_id", expect.any(Number))
+            })
+        
+    })
+    test("PATCH 404: returns a 404 status code and not found message when given an id that doesnt exist in the db", ()=>{
+        const inputStat = {
+            stat_id: 999,
+            weight: 65
+        }
+
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(404)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+              })
+    })
+    test("PATCH 400: returns a 400 status code and a bad request message if send an id of invalid data type", ()=>{
+        const inputStat = {
+            stat_id:"hello",
+            weight: 65
+        }
+        
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} =body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("PATCH 400: returns a 400 status code and a bad request message if sent an empty body", ()=>{
+        const inputStat = {
+        }
+        
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} =body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("PATCH 400: returns a 400 status code and a bad request message if sent an object with incorrect keys", ()=>{
+        const inputStat = {
+            stat:1,
+            weigt: 65
+        }
+        
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} =body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("PATCH 400: returns a 400 status code and a bad request message if sent an object with a missing key", ()=>{
+        const inputStat = {
+            stat_id: 1,
+            
+        }
+        
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} =body
+                expect(msg).toBe("bad request")
+              })
+    })
+    test("PATCH 400: returns a 400 status code and a bad request message if sent a weight of invalid data type", ()=>{
+        const inputStat = {
+            stat_id:1,
+            weight: "weight"
+        }
+        
+        return request(app)
+              .patch("/api/user/workouts/workout_stats")
+              .send(inputStat)
+              .expect(400)
+              .then(({body})=>{
+                const {msg} =body
+                expect(msg).toBe("bad request")
+              })
     })
 })
