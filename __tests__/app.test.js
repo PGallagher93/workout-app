@@ -394,7 +394,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test.only("POST 200: returns a 200 status code", () =>{
+    test("POST 200: returns a 200 status code", () =>{
         const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Kharn"
@@ -470,7 +470,7 @@ describe("POST: /api/user/login", () => {
 })
 
 describe("POST: /api/user/sign_up", () => {
-    test.only("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
+    test("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
         const inputUserCredentials = {
             username: "Vulcan",
             password: "GOSALAMANDERS!"

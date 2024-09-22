@@ -28,7 +28,7 @@ exports.findWorkoutStatsByWorkoutID = (id) => {
                      FROM workout_Stats 
                      INNER JOIN exercises ON workout_stats.exercise_id = exercises.exercise_id 
                      WHERE workout_stats.workout_id = $1 
-                     ORDER BY workout_stats.stat_id`,
+                     ORDER BY workout_stats.session`,
       [id]
     )
     .then(({ rows }) => {
