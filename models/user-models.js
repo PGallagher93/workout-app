@@ -20,7 +20,9 @@ exports.checkUserExists = (id) => {
 exports.checkUserPassword = (credentials) => {
   
   const { password, username } = credentials;
-  
+  if(!password || !username){
+    return Promise.reject({status: 400, msg: "bad request"})
+  }
     return db.query(
         `SELECT *
         from users
