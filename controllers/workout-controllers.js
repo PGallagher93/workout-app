@@ -84,6 +84,7 @@ exports.patchWorkoutStats = (req, res, next) => {
 
 exports.deleteWorkoutStat = (req, res, next) => {
   const stat = req.body
+  const {workout_id} = req.params 
 
   const {stat_id} = stat
   if(!stat_id){
@@ -92,6 +93,7 @@ exports.deleteWorkoutStat = (req, res, next) => {
 
   const promises = [
     checkWorkoutStatExists(stat_id),
+    checkWorkoutExists(workout_id),
     destroyWorkoutStat(stat_id)
   ]
   Promise.all(promises)

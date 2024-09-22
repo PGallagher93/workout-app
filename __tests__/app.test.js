@@ -808,3 +808,16 @@ describe("PATCH 200: /api/user/workouts/workout_stats", () => {
               })
     })
 })
+
+describe.only("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
+    test("DELETE 204: deletes the selected workout stat and returns a 204 status code", () =>{
+        const inputStat = {
+            stat_id: 33
+
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/:workout_id")
+              .send(inputStat)
+    })
+})
