@@ -94,7 +94,7 @@ exports.insertWorkoutStats = (stats, id) => {
                 
                 )
                 .then(({rows}) => {
-                    console.log(rows, "< rows")
+                   
                     return rows
                 })
     

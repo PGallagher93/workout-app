@@ -18,8 +18,9 @@ exports.checkUserExists = (id) => {
 };
 
 exports.checkUserPassword = (credentials) => {
+  
   const { password, username } = credentials;
- 
+  
     return db.query(
         `SELECT *
         from users
@@ -114,7 +115,7 @@ exports.insertNewUser = (username, password) => {
 }
 
 exports.insertExerciseRecord = (weight, exerciseID, userID) =>{
-           console.log(weight, exerciseID, userID, "details ")
+           
            return db
                .query(
                 `INSERT into

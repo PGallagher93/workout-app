@@ -39,8 +39,7 @@ exports.getExerciseRecords = (req, res, next) => {
 };
 
 exports.postLogin = (req, res, next) => {
-  const credentials = req.body[0];
-
+  const credentials = req.body;
   const promises = [
     checkUsernameExists(credentials),
     checkUserPassword(credentials),

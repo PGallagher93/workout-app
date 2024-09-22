@@ -394,11 +394,11 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test("POST 200: returns a 200 status code", () =>{
-        const inputCredentials = [{
+    test.only("POST 200: returns a 200 status code", () =>{
+        const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Kharn"
-        }]
+        }
 
         return request(app)
             .post("/api/user/login")
@@ -414,10 +414,10 @@ describe("POST: /api/user/login", () => {
             })
     })
     test("POST 404: returns a 404 status code and not found message if username does not exist", ()=>{
-        const inputCredentials = [{
+        const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Horus"
-        }]
+        }
 
         return request(app)
                .post("/api/user/login")
@@ -429,10 +429,10 @@ describe("POST: /api/user/login", () => {
                })
     })
     test("POST 401: returns a 401 status code and a not authorised msg if password is incorrect", ()=>{
-        const inputCredentials = [{
+        const inputCredentials = {
             password: "TheEmperor",
             username:"Kharn"
-        }]
+        }
         return request(app)
                .post("/api/user/login")
                .send(inputCredentials)
@@ -443,10 +443,10 @@ describe("POST: /api/user/login", () => {
                })
     })
     test("POST 400: returns a 400 status code and a bad request msg if send obj with incorrect keys", ()=>{
-        const inputCredentials = [{
+        const inputCredentials = {
             pass: "TheEmperor",
             username:"Kharn"
-        }]
+        }
         return request(app)
                .post("/api/user/login")
                .send(inputCredentials)
