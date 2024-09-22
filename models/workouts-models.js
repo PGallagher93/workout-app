@@ -137,10 +137,19 @@ exports.updateWorkoutStat = (id, weight) => {
 }
 
 exports.destroyWorkoutStat = (id) => {
-  console.log(id)
+  
   return db.query(
     `DELETE FROM workout_stats
     WHERE stat_id = $1`,
     [id]
   )
+}
+
+exports.destroyWorkoutStat = (id) => {
+  return db.query(
+    `DELETE FROM workouts
+    Where workout_id = $1`,
+    [id]
+  )
+
 }

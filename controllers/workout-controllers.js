@@ -7,7 +7,8 @@ const {
   insertWorkoutStats,
   checkWorkoutStatExists,
   updateWorkoutStat,
-  destroyWorkoutStat
+  destroyWorkoutStat,
+  destroyWorkout
 } = require("../models/workouts-models");
 
 exports.getPremadeWorkouts = (req, res, next) => {
@@ -103,4 +104,18 @@ exports.deleteWorkoutStat = (req, res, next) => {
             res.status(204).send()
           })
          .catch(next)
+}
+
+exports.deleteWorkout = (req, res, next) => {
+  const {workout_id} = req.params
+
+  const promises = [
+    checkWorkoutExists(workout_id),
+    destroyWorkout(workout_id)
+  ]
+
+  Promise.all(promises)
+         .then((resolvedPromises) => {
+            console.log(resolvedPromises, "< resolved")
+         })
 }
