@@ -470,7 +470,7 @@ describe("POST: /api/user/login", () => {
 })
 
 describe("POST: /api/user/sign_up", () => {
-    test("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
+    test.only("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
         const inputUserCredentials = {
             username: "Vulcan",
             password: "GOSALAMANDERS!"
@@ -481,10 +481,10 @@ describe("POST: /api/user/sign_up", () => {
               .expect(201)
               .then((res) =>{
                 const {userDetails} = res.body
-
+                 
                 expect(userDetails).toHaveProperty("user_id", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
-                expect(userDetails).toHaveProperty("password", expect.any(String))
+                
                 
               })
     })

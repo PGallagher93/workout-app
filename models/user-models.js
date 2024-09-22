@@ -104,7 +104,8 @@ exports.insertNewUser = (username, password) => {
                     (username, password)
                     values
                     ($1, $2)
-                    returning * `,
+                    returning 
+                    username, user_id`,
                     [username, hashedPassword]
                 )
            }).then(({rows}) => {
