@@ -134,3 +134,7 @@ exports.updateWorkoutStat = (id, weight) => {
          })
 
 }
+
+exports.destroyWorkoutStat = (id) => {
+  console.log(id)
+}

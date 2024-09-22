@@ -6,7 +6,8 @@ const {
   findWorkoutStatsByWorkoutID,
   insertWorkoutStats,
   checkWorkoutStatExists,
-  updateWorkoutStat
+  updateWorkoutStat,
+  destroyWorkoutStat
 } = require("../models/workouts-models");
 
 exports.getPremadeWorkouts = (req, res, next) => {
@@ -78,5 +79,23 @@ exports.patchWorkoutStats = (req, res, next) => {
          .then((resolvedPromises) => {
           
           res.status(200).send({workoutStat: resolvedPromises[1][0]})
+         }).catch(next)
+}
+
+exports.deleteWorkoutStat = (req, res, next) => {
+  const stat = req.body
+
+  const {stat_id} = stat
+  if(!stat_id){
+    res.status(400).send({msg: "bad request"})
+  }
+
+  const promises = [
+    checkWorkoutStatExists(stat_id),
+    destroyWorkoutStat(stat_id)
+  ]
+  Promise.all(promises)
+         .then((resolvedPromises) => {
+          console.log(resolvedPromises, "< resolved")
          }).catch(next)
 }
