@@ -817,7 +817,11 @@ describe.only("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
         }
 
         return request(app)
-              .delete("/api/workouts/workout_stats/:workout_id")
+              .delete("/api/workouts/workout_stats/2")
               .send(inputStat)
+              .expect(204)
+              .then(({body}) => {
+                expect(body).toEqual({})
+              })
     })
 })

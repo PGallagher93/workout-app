@@ -93,11 +93,14 @@ exports.deleteWorkoutStat = (req, res, next) => {
 
   const promises = [
     checkWorkoutStatExists(stat_id),
-    checkWorkoutExists(workout_id),
-    destroyWorkoutStat(stat_id)
+    checkWorkoutExists(workout_id)
   ]
   Promise.all(promises)
-         .then((resolvedPromises) => {
-          console.log(resolvedPromises, "< resolved")
-         }).catch(next)
+         .then(() => {
+          destroyWorkoutStat(stat_id)
+         })
+          .then(() =>{
+            res.status(204).send()
+          })
+         .catch(next)
 }
