@@ -145,7 +145,7 @@ exports.destroyWorkoutStat = (id) => {
   )
 }
 
-exports.destroyWorkoutStat = (id) => {
+exports.destroyWorkout = (id) => {
   return db.query(
     `DELETE FROM workouts
     Where workout_id = $1`,

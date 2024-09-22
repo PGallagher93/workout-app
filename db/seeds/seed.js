@@ -137,7 +137,7 @@ function createWorkoutStats(){
         sets INT DEFAULT 1 NOT NULL,
         reps INT DEFAULT 1 NOT NULL,
         session INT DEFAULT 1 NOT NULL,
-        workout_id INT REFERENCES workouts(workout_id) NOT NULL
+        workout_id INT REFERENCES workouts(workout_id) ON DELETE CASCADE NOT NULL
     );`)
 }
 function createExerciseRecords(){

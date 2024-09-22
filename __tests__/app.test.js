@@ -931,7 +931,7 @@ describe("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
     })
 })
 
-describe("DELETE: /api/user/workouts/:workout_id", ()=>{
+describe.only("DELETE: /api/user/workouts/:workout_id", ()=>{
     test("DELETE 204: returns a 204 status code and empty body after successful deletion", ()=>{
         return request(app)
               .delete("/api/user/workouts/1")
