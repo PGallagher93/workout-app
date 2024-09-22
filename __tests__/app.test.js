@@ -809,7 +809,7 @@ describe("PATCH 200: /api/user/workouts/workout_stats", () => {
     })
 })
 
-describe.only("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
+describe("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
     test("DELETE 204: deletes the selected workout stat and returns a 204 status code", () =>{
         const inputStat = {
             stat_id: 33
@@ -822,6 +822,111 @@ describe.only("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
               .expect(204)
               .then(({body}) => {
                 expect(body).toEqual({})
+              })
+    })
+    test("DELETE 404: returns a 404 status code and a not found message when sent a stat_id that does not exist", ()=>{
+        const inputStat ={
+            stat_id: 9999
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/2")
+              .send(inputStat)
+              .expect(404)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+            
+              })
+    })
+    test("DELETE 404: returns a 404 status code and a not found message when sent a workout id that does not exist", ()=>{
+        const inputStat ={
+            stat_id: 33
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/9999")
+              .send(inputStat)
+              .expect(404)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+            
+              })
+    })
+    test("DELETE 404: returns a 400 status code and bad request message when sent a workout id of an invalid data type", ()=>{
+        const inputStat ={
+            stat_id: 33
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/hello")
+              .send(inputStat)
+              .expect(400)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            
+              })
+    })
+    test("DELETE 404: returns a 400 status code and a bad request message when sent a input stat id value of incorrect data type", ()=>{
+        const inputStat ={
+            stat_id: "hello"
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/2")
+              .send(inputStat)
+              .expect(400)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            
+              })
+    })
+    test("DELETE 404: returns a 400 status code and a bad request message when sent a input with incorrect key", ()=>{
+        const inputStat ={
+            stat: 33
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/2")
+              .send(inputStat)
+              .expect(400)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            
+              })
+    })
+    test("DELETE 404: returns a 404 status code and a not found message when sent a stat id that does not exist", ()=>{
+        const inputStat ={
+            stat_id: 999
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/2")
+              .send(inputStat)
+              .expect(404)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+            
+              })
+            })
+    test("DELETE 404: returns a 400 status code and a bad request message when sent an empty input", ()=>{
+        const inputStat ={
+            
+        }
+
+        return request(app)
+              .delete("/api/workouts/workout_stats/2")
+              .send(inputStat)
+              .expect(400)
+              .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+            
               })
     })
 })

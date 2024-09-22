@@ -85,7 +85,7 @@ exports.patchWorkoutStats = (req, res, next) => {
 exports.deleteWorkoutStat = (req, res, next) => {
   const stat = req.body
   const {workout_id} = req.params 
-
+  
   const {stat_id} = stat
   if(!stat_id){
     res.status(400).send({msg: "bad request"})
