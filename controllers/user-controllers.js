@@ -9,7 +9,9 @@ const {
   checkUserExists,
   checkUniqueUsername,
   insertNewUser,
-  insertExerciseRecord
+  insertExerciseRecord,
+  checkExerciseRecordExists,
+  destroyExerciseRecord
 } = require("../models/user-models");
 exports.postWorkout = (req, res, next) => {
   const workout = req.body;
@@ -87,4 +89,21 @@ exports.postExerciseRecord = (req, res, next) => {
       
       res.status(201).send({recordDetails: resolvedPromises[2][0]})
     }).catch(next)
+}
+
+exports.deleteExerciseRecord = (req, res, next) => {
+  const {user_id} = req.params
+  const {record_id} = req.body
+  if(!record_id){
+    res.status(400).send({msg: "bad request"})
+  }
+  const promises = [
+    checkUserExists(user_id),
+    checkExerciseRecordExists(record_id),
+    destroyExerciseRecord(record_id)
+   ]
+   Promise.all(promises)
+          .then((resolvedPromises) => {
+            res.status(204).send()
+          }).catch(next)
 }

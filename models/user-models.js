@@ -131,3 +131,26 @@ exports.insertExerciseRecord = (weight, exerciseID, userID) =>{
                 return rows
                })
 }
+
+exports.checkExerciseRecordExists = (id) => {
+  return db
+          .query(
+            `SELECT * 
+            FROM exercise_records
+            WHERE record_id = $1`,
+            [id]
+          ).then(({rows})=>{
+            if(!rows.length) {
+              return Promise.reject({status: 404, msg: "not found"})
+          }
+          })
+}
+
+exports.destroyExerciseRecord = (id) => {
+  return db
+         .query(
+          `DELETE FROM exercise_records
+          WHERE record_id = $1`,
+          [id]
+         )
+}

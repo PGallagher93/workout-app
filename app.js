@@ -11,7 +11,7 @@ const {
 } = require("./controllers/workout-controllers");
 const { getExercises } = require("./controllers/exercise-controllers");
 const { handleCustomErrors, handleErrors } = require("./error-handlers");
-const { postWorkout, getExerciseRecords, postLogin, postNewUser, postExerciseRecord } = require("./controllers/user-controllers");
+const { postWorkout, getExerciseRecords, postLogin, postNewUser, postExerciseRecord, deleteExerciseRecord } = require("./controllers/user-controllers");
 const app = express();
 
 app.use(express.json());
@@ -33,6 +33,7 @@ app.patch("/api/user/workouts/workout_stats", patchWorkoutStats)
 
 app.delete("/api/workouts/workout_stats/:workout_id", deleteWorkoutStat)
 app.delete("/api/user/workouts/:workout_id", deleteWorkout)
+app.delete("/api/user/:user_id/exercise_records", deleteExerciseRecord )
 
 app.use((req, res) => {
   res.status(404).send({ msg: "not found" });
