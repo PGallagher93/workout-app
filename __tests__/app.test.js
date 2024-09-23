@@ -854,7 +854,7 @@ describe("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
             
               })
     })
-    test("DELETE 404: returns a 400 status code and bad request message when sent a workout id of an invalid data type", ()=>{
+    test("DELETE 400: returns a 400 status code and bad request message when sent a workout id of an invalid data type", ()=>{
         const inputStat ={
             stat_id: 33
         }
@@ -869,7 +869,7 @@ describe("DELETE: /api/workouts/workout_stats/:workout_id", () =>{
             
               })
     })
-    test("DELETE 404: returns a 400 status code and a bad request message when sent a input stat id value of incorrect data type", ()=>{
+    test("DELETE 400: returns a 400 status code and a bad request message when sent a input stat id value of incorrect data type", ()=>{
         const inputStat ={
             stat_id: "hello"
         }
@@ -960,7 +960,7 @@ describe("DELETE: /api/user/workouts/:workout_id", ()=>{
     })
 })
 
-describe.only("DELETE: /api/user/:user_id/exercise_records", ()=>{
+describe("DELETE: /api/user/:user_id/exercise_records", ()=>{
     test("DELETE 204: deletes the selected exercise record and returns a 204 status", ()=>{
         const inputRecord = {
             record_id: 1
@@ -968,9 +968,91 @@ describe.only("DELETE: /api/user/:user_id/exercise_records", ()=>{
 
         return request(app)
                .delete("/api/user/1/exercise_records")
+               .send(inputRecord)
                .expect(204)
                .then(({body}) => {
                 expect(body).toEqual({})
                })
     })
+    test("DELETE 404: returns a 404 status code and a not found message when sent a stat record that doesnt exist", ()=>{
+        const inputRecord = {
+            record_id:9999
+        }
+        return request(app)
+               .delete("/api/user/1/exercise_records")
+               .send(inputRecord)
+               .expect(404)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+               })
+    })
+    test("DELETE 404: returns a 404 status code and a not found when sent a user ID that doesnt exist", ()=>{
+        const inputRecord = {
+            record_id: 1
+        }
+
+        return request(app)
+               .delete("/api/user/9999/exercise_records")
+               .send(inputRecord)
+               .expect(404)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("not found")
+               })
+    })
+    test("DELETE 400: returns a 400 status code and a bad request when sent a user ID of invalid data type", ()=>{
+        const inputRecord = {
+            record_id: 1
+        }
+
+        return request(app)
+               .delete("/api/user/hello/exercise_records")
+               .send(inputRecord)
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+    test("DELETE 400: returns a 400 status code and bad request message when sent a record id of invalid data type", ()=>{
+        const inputRecord = {
+            record_id: "hello"
+        }
+        return request(app)
+               .delete("/api/user/1/exercise_records")
+               .send(inputRecord)
+               .expect(400)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+    test("DELETE 400: returns a 400 status code and bad request message when sent an object with the wrong key", ()=>{
+        const inputRecord = {
+            record: 1
+        }
+        return request(app)
+               .delete("/api/user/1/exercise_records")
+               .send(inputRecord)
+               .expect(400)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+    test("DELETE 400: returns a 400 status code and bad request message when sent an empty object", ()=>{
+        const inputRecord = {
+            
+        }
+        return request(app)
+               .delete("/api/user/1/exercise_records")
+               .send(inputRecord)
+               .expect(400)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+
 })

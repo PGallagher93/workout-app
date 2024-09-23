@@ -93,17 +93,23 @@ exports.postExerciseRecord = (req, res, next) => {
 
 exports.deleteExerciseRecord = (req, res, next) => {
   const {user_id} = req.params
+  
   const {record_id} = req.body
+  
   if(!record_id){
+    
     res.status(400).send({msg: "bad request"})
   }
   const promises = [
     checkUserExists(user_id),
-    checkExerciseRecordExists(record_id),
-    destroyExerciseRecord(record_id)
+    checkExerciseRecordExists(record_id)
+  
    ]
    Promise.all(promises)
-          .then((resolvedPromises) => {
+          .then(() => {
+            destroyExerciseRecord(record_id)
+          }).then(()=>{
             res.status(204).send()
-          }).catch(next)
+          })
+          .catch(next)
 }
