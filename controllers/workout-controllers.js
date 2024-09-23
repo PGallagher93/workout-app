@@ -117,5 +117,5 @@ exports.deleteWorkout = (req, res, next) => {
   Promise.all(promises)
          .then((resolvedPromises) => {
             res.status(204).send()
-         })
+         }).catch(next)
 }

@@ -936,5 +936,26 @@ describe.only("DELETE: /api/user/workouts/:workout_id", ()=>{
         return request(app)
               .delete("/api/user/workouts/1")
               .expect(204)
+              .then(({body}) => {
+                expect(body).toEqual({})
+              })
+    })
+    test("DELETE 400: returns a 400 status code and bad request message when given a workout id of invalid data type ", ()=>{
+        return request(app)
+               .delete("/api/user/workouts/hello")
+               .expect(400)
+               .then(({body}) => {
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               }) 
+    })
+    test("DELETE 404: returns a 404 status code and not found message when given a workout id that doesnt exist", ()=>{
+        return request(app)
+               .delete("/api/user/workouts/9999")
+               .expect(404)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not found")
+               })
     })
 })
