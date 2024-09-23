@@ -117,7 +117,7 @@ function createWorkouts(){
     return db.query(`CREATE TABLE workouts(
         workout_id SERIAL PRIMARY KEY,
         workout_name VARCHAR NOT NULL,
-        workout_user INT REFERENCES users(user_id),
+        workout_user INT REFERENCES users(user_id) ON DELETE CASCADE,
         is_premade BOOL DEFAULT false
 
     );`)
