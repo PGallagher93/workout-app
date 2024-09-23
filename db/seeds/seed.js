@@ -146,7 +146,7 @@ function createExerciseRecords(){
         exercise_id INT references exercises(exercise_id),
         weight INT DEFAULT 0 NOT NULL,
         created_at TIMESTAMP DEFAULT NOW(),
-        user_id INT REFERENCES users(user_id)
+        user_id INT REFERENCES users(user_id) ON DELETE CASCADE
     );`)
 }
 module.exports = seed
