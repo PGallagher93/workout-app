@@ -117,8 +117,8 @@ exports.deleteExerciseRecord = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
      const credentials = req.body
-     
-
+    
+    
      const promises = [checkUsernameExists(credentials)]
 
      Promise.all(promises)

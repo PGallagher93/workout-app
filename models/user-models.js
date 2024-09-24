@@ -59,6 +59,9 @@ exports.checkUserPasswordAndLogin = (credentials) => {
 exports.checkUsernameExists = (credentials) => {
    
     const {username} = credentials
+    if(!username){
+      return Promise.reject(({status:400, msg: "bad request"}))
+    }
     
   return db
     .query(
@@ -69,6 +72,7 @@ exports.checkUsernameExists = (credentials) => {
     ).then(({rows}) => {
        
         if(!rows.length) {
+          
             return Promise.reject({status: 404, msg: "not found"})
         }
     })
@@ -156,9 +160,9 @@ exports.destroyExerciseRecord = (id) => {
 }
 
 exports.checkUserPasswordAndDestroyUser = (credentials) => {
-
+        
          const {password, username} = credentials
-         console.log(password, username, "creds") 
+          
          if(!password || !username){
           return Promise.reject({status:400, msg:"bad request"})
          }
@@ -175,7 +179,7 @@ exports.checkUserPasswordAndDestroyUser = (credentials) => {
          }).then((result)=>{
           
           if(!result){
-            return Promise.reject({status: 403, msg:"forbidden"})
+            return Promise.reject({status: 401, msg:"not authorised"})
           }
           return db.query(
             `DELETE 

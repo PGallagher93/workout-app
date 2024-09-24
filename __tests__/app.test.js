@@ -1057,15 +1057,73 @@ describe("DELETE: /api/user/:user_id/exercise_records", ()=>{
 
 })
 
-describe.only("DELETE: /api/user", ()=>{
+describe("DELETE: /api/user", ()=>{
     test("DELETE 204: returns a 204 status code on successful user deletion", () => {
         const inputCredentials ={
             password:"TheEmperorSucks",
-            username:"Kharn"
+            username:"Kharn",
+            cheese: "yummy"
         }
         return request(app)
               .delete("/api/user")
               .send(inputCredentials)
               .expect(204)
+              .then(({body}) => {
+                expect(body).toEqual({})
+              })
+    })
+    test("DELETE 404: returns a 404 status code and not found message if sent a username that doesnt exist", ()=>{
+        const inputCredentials = {
+            password:"thisisapassword",
+            username:"Lorgar"
+        }
+        return request(app)
+               .delete("/api/user")
+               .send(inputCredentials)
+               .expect(404)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not found")
+               })
+    })
+    test("DELETE 401: returns a 401 status code and not authorised message if sent incorrect password", ()=>{
+        const inputCredentials = {
+            password:"thisisapassword",
+            username:"Kharn"
+        }
+        return request(app)
+               .delete("/api/user")
+               .send(inputCredentials)
+               .expect(401)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("not authorised")
+               })
+    })
+    test("DELETE 400: returns a 40 status code and bad request message if sent an object with the wrong keys", ()=>{
+        const inputCredentials = {
+            password:"TheEmperorSucks",
+            user: "Kharn"
+        }
+        return request(app)
+               .delete("/api/user")
+               .send(inputCredentials)
+               .expect(400)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
+    })
+    test("DELETE 400: returns a 400 status code and bad request message if sent an empty object", ()=>{
+        const inputCredentials = {
+        }
+        return request(app)
+               .delete("/api/user")
+               .send(inputCredentials)
+               .expect(400)
+               .then(({body})=>{
+                const {msg} = body
+                expect(msg).toBe("bad request")
+               })
     })
 })
