@@ -1056,3 +1056,16 @@ describe("DELETE: /api/user/:user_id/exercise_records", ()=>{
     })
 
 })
+
+describe.only("DELETE: /api/user", ()=>{
+    test("DELETE 204: returns a 204 status code on successful user deletion", () => {
+        const inputCredentials ={
+            password:"TheEmperorSucks",
+            username:"Kharn"
+        }
+        return request(app)
+              .delete("/api/user")
+              .send(inputCredentials)
+              .expect(204)
+    })
+})

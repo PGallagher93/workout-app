@@ -4,14 +4,15 @@ const {
   getExerciseRecordsByUserAndExerciseID,
 } = require("../models/exercise-records-models");
 const {
-  checkUserPassword,
+  checkUserPasswordAndLogin,
   checkUsernameExists,
   checkUserExists,
   checkUniqueUsername,
   insertNewUser,
   insertExerciseRecord,
   checkExerciseRecordExists,
-  destroyExerciseRecord
+  destroyExerciseRecord,
+  checkUserPasswordAndDestroyUser
 } = require("../models/user-models");
 exports.postWorkout = (req, res, next) => {
   const workout = req.body;
@@ -44,7 +45,7 @@ exports.postLogin = (req, res, next) => {
   const credentials = req.body;
   const promises = [
     checkUsernameExists(credentials),
-    checkUserPassword(credentials),
+    checkUserPasswordAndLogin(credentials),
   ];
 
   Promise.all(promises)
@@ -112,4 +113,22 @@ exports.deleteExerciseRecord = (req, res, next) => {
             res.status(204).send()
           })
           .catch(next)
+}
+
+exports.deleteUser = (req, res, next) => {
+     const credentials = req.body
+     
+
+     const promises = [checkUsernameExists(credentials)]
+
+     Promise.all(promises)
+            .then(()=>{
+              
+             return checkUserPasswordAndDestroyUser(credentials)
+            })
+            .then(()=>{
+
+              res.status(204).send()
+            }).catch(next)
+     
 }

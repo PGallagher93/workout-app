@@ -17,7 +17,7 @@ exports.checkUserExists = (id) => {
     });
 };
 
-exports.checkUserPassword = (credentials) => {
+exports.checkUserPasswordAndLogin = (credentials) => {
   
   const { password, username } = credentials;
   if(!password || !username){
@@ -153,4 +153,37 @@ exports.destroyExerciseRecord = (id) => {
           WHERE record_id = $1`,
           [id]
          )
+}
+
+exports.checkUserPasswordAndDestroyUser = (credentials) => {
+
+         const {password, username} = credentials
+         console.log(password, username, "creds") 
+         if(!password || !username){
+          return Promise.reject({status:400, msg:"bad request"})
+         }
+         
+         return db.query(
+          `SELECT * 
+          FROM users
+          WHERE username = $1`,
+          [username]
+         ).then(({rows})=> {
+          
+         return checkHashedPassword(password, rows[0].password)
+          
+         }).then((result)=>{
+          
+          if(!result){
+            return Promise.reject({status: 403, msg:"forbidden"})
+          }
+          return db.query(
+            `DELETE 
+             FROM users
+             WHERE username = $1`,
+             [username]
+          )
+         })
+
+
 }
