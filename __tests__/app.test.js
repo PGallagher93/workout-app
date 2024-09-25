@@ -32,6 +32,7 @@ describe("GET: /api/workouts", () => {
             .expect(200)
             .then((res) =>{
                 const {workouts} = res.body
+                
                 expect(workouts).toHaveLength(2)
                 workouts.forEach((workout) => {
                     expect(workout).toHaveProperty("workout_id", expect.any(Number))
@@ -211,7 +212,7 @@ describe("POST: /api/workouts/workout_stats/:workout_id", () => {
             weight: 40,
             sets: 4,
             reps: 5, 
-            session: 4,},
+            session: 4},
             {exercise_id:31,
              weight: 23,
              sets: 4,
@@ -407,7 +408,7 @@ describe("POST: /api/user/login", () => {
             .then((res)=>{
             
                 const {userDetails} = res.body
-
+                  
                 expect(userDetails).toHaveProperty("id", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))
@@ -1061,8 +1062,7 @@ describe("DELETE: /api/user", ()=>{
     test("DELETE 204: returns a 204 status code on successful user deletion", () => {
         const inputCredentials ={
             password:"TheEmperorSucks",
-            username:"Kharn",
-            cheese: "yummy"
+            username:"Kharn"
         }
         return request(app)
               .delete("/api/user")

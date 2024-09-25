@@ -21,6 +21,7 @@ exports.postWorkout = (req, res, next) => {
   const promises = [checkUserExists(user_id), insertWorkout(workout, user_id)];
   Promise.all(promises)
     .then((resolvedPromises) => {
+      
       res.status(201).send({ workout: resolvedPromises[1] });
     })
     .catch(next);
@@ -36,6 +37,7 @@ exports.getExerciseRecords = (req, res, next) => {
   ];
   Promise.all(promises)
     .then((resolvedPromises) => {
+      
       res.status(200).send({ exerciseRecords: resolvedPromises[2] });
     })
     .catch(next);
@@ -50,7 +52,7 @@ exports.postLogin = (req, res, next) => {
 
   Promise.all(promises)
     .then((resolvedPromises) => {
-    
+      
       res.status(200).send({ userDetails: resolvedPromises[1] });
     })
     .catch(next);

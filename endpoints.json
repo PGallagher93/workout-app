@@ -1,5 +1,231 @@
 {
-    "GET /api": {
-        "description":"serves up a json representation of all the available endpoints"
+  "GET /api": {
+    "description": "serves up a json representation of all the available endpoints"
+  },
+  "GET /api/premades": {
+    "description": "serves up an array of the premade workouts",
+    "queries": [],
+    "exampleResponse": {
+      "workouts": [
+        {
+          "workout_id": 1,
+          "workout_name": "5x5",
+          "workout_user": 1,
+          "is_premade": true
+        }
+      ]
     }
+  },
+  "GET /api/workouts/:user_id": {
+    "description": "serves up an array of users workouts",
+    "queries": [],
+    "exampleResponse": {
+      "workouts": [
+        {
+          "workout_id": 1,
+          "workout_name": "5x5",
+          "workout_user": 1,
+          "is_premade": true
+        }
+      ]
+    }
+  },
+  "GET /api/user/workouts/:workout_id": {
+    "description": "Serves up an array of workoutstats from chosen workout",
+    "queries": [],
+    "exampleResponse": {
+      "workout": [
+        {
+          "stat_id": 1,
+          "exercise_name": "Barbell Bench Press",
+          "session": 1,
+          "weight": 60,
+          "sets": 5,
+          "reps": 5
+        },
+        {
+          "stat_id": 3,
+          "exercise_name": "Deadlifts",
+          "session": 1,
+          "weight": 50,
+          "sets": 1,
+          "reps": 5
+        }
+      ]
+    }
+  },
+  "GET /api/exercies": {
+    "description": "returns array of available exercises",
+    "queries": [],
+    "exampleResponse": {
+      "exercises": [
+        {
+          "exercise_id": 1,
+          "exercise_name": "Barbell Bench Press",
+          "body_part": "Chest"
+        },
+        {
+          "exercise_id": 2,
+          "exercise_name": "Inclinse Barbell Bench Press",
+          "body_part": "Chest"
+        }
+      ]
+    }
+  },
+  "GET /api/user/:user_id/exercise_records/:exercise_id": {
+    "description":"returns an array of a users records for specific exercises",
+    "queries":[],
+    "exampleResponse":{
+        "exerciseRecords":[
+            {
+                "record_id": 1,
+                "exercise_id": 1,
+                "weight": 60,
+                "created_at": "2024-09-25T12:53:35.702Z",
+                "user_id": 1
+              },
+              {
+                "record_id": 2,
+                "exercise_id": 1,
+                "weight": 70,
+                "created_at": "2024-09-25T12:53:35.702Z",
+                "user_id": 1
+              }
+        ]
+    }
+  },
+  "POST /api/user/login":{
+    "description":"returns an object with user details after a successful login",
+    "queries":[],
+    "exampleRequestBody":{"username":"string", "password":"string"},
+    "exampleResponse":{"userDetails":{
+                    "id": 1,
+                    "username":"Kharn",
+                    "token": "rwopriqwr903qrrjq3r09qwtrjqrjqrqopjr43093"
+    }        
+  }
+},
+  "POST /api/workouts/:user_id":{
+    "description": "returns an array with the workout details after succesful posting",
+    "queries":[],
+    "exampleRequestBody":{"workout_name":"String", "workout_user":"Number"},
+    "exampleResponse":{"workout":[
+        {"workout_id":3,
+         "workout_name":"My Workout",
+         "workout_user":1,
+        "is_premade": false}
+    ]}
+   
+  },
+  "POST /api/workouts/workout_stats/:workout_id":{
+    "description":"returns an array of workout stats after successful posting",
+    "queries":[],
+    "exampleRequestBody":[
+        {"exercise_id": 1,
+        "weight": 40,
+        "sets": 4,
+        "reps": 5, 
+        "session": 4},
+        {"exercise_id":31,
+         "weight": 23,
+         "sets": 4,
+         "reps": 4,
+         "session":5}
+    ],
+    "exampleResponse":{"workoutStats": [
+        {
+          "stat_id": 38,
+          "exercise_id": 1,
+          "weight": 40,
+          "sets": 4,
+          "reps": 5,
+          "session": 4,
+          "workout_id": 1
+        },
+        {
+          "stat_id": 39,
+          "exercise_id": 31,
+          "weight": 23,
+          "sets": 4,
+          "reps": 4,
+          "session": 5,
+          "workout_id": 1
+        }
+      ]
+
+    }
+  },
+  "POST /api/user/sign_up":{
+    "description":"returns an object with the user details after successful sign up",
+    "queries":[],
+    "exampleRequestBody": {"username":"string", "password":"string"},
+    "exampleResponse":{"userDetails":{
+        "username":"Vulcan",
+        "user_id":3
+    }}
+  },
+  "POST /api/user/:user_id/exercise_records":{
+    "description":"returns record details after a successful posting of new exercise record",
+    "queries":[],
+    "exampleRequestBody":{"exercise_id":"Number", "weight":"Number"},
+    "exampleResponse":{"recordDetails":{
+        "record_id":3,
+        "exercise_id":1,
+        "weight": 70,
+        "created_at": "2024-09-25T20:17:51.862Z",
+        "user_id": 1
+    }}
+  },
+  "PATCH /api/user/workouts/workout_stats":{
+    "description":"sends a new weight to a workout stat, updates the workout stat and returns the stat after a successful patch",
+    "queries":[],
+    "exampleRequestBody":{
+        "stat_id":"Number",
+        "weight":"Number"
+    },
+    "exampleResponse":{"workoutStat":{
+        "stat_id": 1,
+        "exercise_id": 1,
+        "weight": 65,
+        "sets": 5,
+        "reps": 5,
+        "session": 1,
+        "workout_id": 1
+    }}
+  },
+  "DELETE /api/workouts/workout_stats/:workout_id":{
+    "description":"recieves a sent workout stat id and deletes the matching workout stat",
+    "queries":[],
+    "exampleRequestBody":{
+        "stat_id":"Number"
+    },
+    "exampleResponse":{}
+  },
+  "DELETE /api/user/workouts/:workout_id":{
+    "description":"deletes a workout",
+    "queries":[],
+    "exampleResponse":{}
+  },
+  "DELETE /api/user/:user_id/exercise_records":{
+    "description":"recieves a sent exercise record id and deletes the matching exercise record",
+    "queries":[],
+    "exampleRequestBody":{
+        "record_id":"Number"
+    },
+    "exampleResponse":{}
+  },
+  "DELETE /api/user":{
+    "description":"recieves a sent username and password and deletes the user if credentials are correct",
+    "queries":[],
+    "exampleRequestBody":{
+        "password":"String",
+        "username":"String"
+    },
+    "exampleResponse":{}
+  }
+  
+  
+  
+
+  
 }
