@@ -5,7 +5,7 @@
   "main": "listen.js",
   "scripts": {
     "setup-dbs": "psql -f ./db/workout_app_db.sql",
-    "test": "jest",
+    "test": "NODE_ENV=development jest",
     "test-seed": "PGDATABASE=workout_app_db jest seed.test.js",
     "seed": "node ./db/seeds/run-seed.js",
     "devStart": "nodemon listen.js",
