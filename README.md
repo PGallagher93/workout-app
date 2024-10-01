@@ -34,7 +34,7 @@ In order for the app to work you must set up two environment files formatted as:
 
 Inside the .env.development file you will need to write "PGDATABASE=workout_app_db (or whatever you might choose to rename the db to) and a secret for the JWT written as JWT_SECRET=[your secret]
 
-Within the .env.production file you will need to write "DATABASE_URL=<your hosted database url> and a secret for the JWT written as JWT_SECRET=<your secret>
+Within the .env.production file you will need to write "DATABASE_URL=[your hosted database url] and a secret for the JWT written as JWT_SECRET=[your secret]
 
 ## Running locally
 
@@ -42,9 +42,9 @@ To run the app locally simply input "npm run start" into the terminal (will defa
 
 ## Tech stack
 
--Express
--PSQL
--Node
+- Express
+- PSQL
+- Node
 
 ## Minimum requirements
 
