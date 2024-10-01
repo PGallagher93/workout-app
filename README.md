@@ -28,7 +28,7 @@ Note: this script sets the NODE_ENV to development by default.
 
 ## Enviromental Variables
 
-In order for the app to work you must set up two environment files formamated as:
+In order for the app to work you must set up two environment files formatted as:
 - .env.development
 - .env.production
 
