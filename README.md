@@ -12,7 +12,7 @@ The repository can be cloned via [github](https://github.com/PGallagher93/workou
 
 ### Dependencies
 
-The app has various dependencies (the details of which can be found in the package.json file). To install them simply type "npm i" into te terminal.
+The app has various dependencies (the details of which can be found in the package.json file). To install them simply type "npm i" into the terminal.
 
 ### seeding the database
 
