@@ -54,7 +54,7 @@
       ]
     }
   },
-  "GET /api/exercies": {
+  "GET /api/exercises": {
     "description": "returns array of available exercises",
     "queries": [],
     "exampleResponse": {
