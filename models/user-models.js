@@ -95,9 +95,9 @@ exports.checkUniqueUsername = (username) => {
       })
 }
 
-exports.insertNewUser = (username, password) => {
+exports.insertNewUser = (username, password, displayName) => {
    
-
+    
     const promises = [hashNewPassword(password)]
 
     return Promise.all(promises)
@@ -108,12 +108,12 @@ exports.insertNewUser = (username, password) => {
                 .query(
                     `INSERT into
                      users
-                    (username, password)
+                    (username, password, display_name)
                     values
-                    ($1, $2)
+                    ($1, $2, $3)
                     returning 
                     username, user_id`,
-                    [username, hashedPassword]
+                    [username, hashedPassword, displayName]
                 )
            }).then(({rows}) => {
             return rows
