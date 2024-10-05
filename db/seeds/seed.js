@@ -45,10 +45,11 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
     })
     .then(() => {
         const insertUsersQueryStr = format(
-            'INSERT into users (username, password) values %L;',
-            newUserData.map(({username, password}) => [
+            'INSERT into users (username, password, display_name) values %L;',
+            newUserData.map(({username, password, displayName}) => [
                 username,
-                password
+                password,
+                displayName
             ])
         )
         const userPromise=db.query(insertUsersQueryStr)
@@ -110,7 +111,8 @@ function createUsers() {
     return db.query(`CREATE TABLE users(
         user_id SERIAL PRIMARY KEY,
         username VARCHAR NOT NULL,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        display_name VARCHAR NOT NULL
     );`)
 }
 function createWorkouts(){

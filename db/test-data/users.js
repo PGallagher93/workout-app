@@ -1,9 +1,11 @@
 module.exports =[
     {
         username:"Kharn",
-        password:"TheEmperorSucks"
+        password:"TheEmperorSucks",
+        displayName:"Kharn"
     },
     {username: "Sigismund",
-    password:"TheEmperorRules"
+    password:"TheEmperorRules",
+    displayName:"Sigismund"
 }
 ]
