@@ -23,6 +23,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
   if(!password || !username){
     return Promise.reject({status: 400, msg: "bad request"})
   }
+  
     return db.query(
         `SELECT *
         from users
@@ -32,7 +33,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
         
         const userPass = rows[0].password
         const promises = [checkHashedPassword(password, userPass), 
-                          rows[0].user_id]
+                          rows[0].user_id, rows[0].display_name]
         const userInfo = Promise.all(promises).then((resolvedPromises) =>{
             
             return resolvedPromises
@@ -47,7 +48,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
         //else send token
          const token = jwt.sign({id:loginResult[1], username:username}, process.env.JWT_SECRET)
 
-         return {id: loginResult[1], username, token}
+         return {id: loginResult[1], username, token, displayName: loginResult[2]}
     })
      
 

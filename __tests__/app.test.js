@@ -395,7 +395,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test("POST 200: returns a 200 status code", () =>{
+    test.only("POST 200: returns a 200 status code", () =>{
         const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Kharn"

@@ -45,6 +45,7 @@ exports.getExerciseRecords = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   const credentials = req.body;
+  
   const promises = [
     checkUsernameExists(credentials),
     checkUserPasswordAndLogin(credentials),
@@ -52,7 +53,7 @@ exports.postLogin = (req, res, next) => {
 
   Promise.all(promises)
     .then((resolvedPromises) => {
-      
+  
       res.status(200).send({ userDetails: resolvedPromises[1] });
     })
     .catch(next);
