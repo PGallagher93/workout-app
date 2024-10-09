@@ -52,6 +52,8 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
                 displayName
             ])
         )
+       
+        
         const userPromise=db.query(insertUsersQueryStr)
 
         const insertExercisesQueryStr = format(
@@ -65,6 +67,8 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
         return Promise.all([userPromise, exercisesPromise])
     })
     .then(() => {
+        
+        
         const insertWorkoutsQueryStr = format(
             'INSERT INTO workouts (workout_name, workout_user, is_premade) VALUES %L',
             workoutsData.map(({workout_name, workout_user, is_premade}) => [
@@ -72,10 +76,12 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
                 workout_user,
                 is_premade
             ])
-        )
+        ) 
+        
         return db.query(insertWorkoutsQueryStr)
     })
     .then(()=>{
+        
         const formattedExerciseData = addExerciseID(exerciseData)
         const formattedWorkoutStatsData = findExerciseID(workoutStatsData, formattedExerciseData)
         

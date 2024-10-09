@@ -60,6 +60,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
 exports.checkUsernameExists = (credentials) => {
    
     const {username} = credentials
+    
     if(!username){
       return Promise.reject(({status:400, msg: "bad request"}))
     }
@@ -80,7 +81,9 @@ exports.checkUsernameExists = (credentials) => {
 };
 
 exports.checkUniqueUsername = (username) => {
+  
     if(username === ""){
+      
         return Promise.reject({status: 400, msg: "bad request"})
     }
     return db
@@ -91,6 +94,7 @@ exports.checkUniqueUsername = (username) => {
         [username]
       ).then(({rows}) => {
         if(rows.length){
+          
             return Promise.reject({status: 403, msg: "forbidden"})
         }
       })
@@ -104,7 +108,7 @@ exports.insertNewUser = (username, password, displayName) => {
     return Promise.all(promises)
            .then((resolvedPromises) => {
             const hashedPassword = resolvedPromises[0]
-            
+           
             return db
                 .query(
                     `INSERT into
@@ -113,7 +117,7 @@ exports.insertNewUser = (username, password, displayName) => {
                     values
                     ($1, $2, $3)
                     returning 
-                    username, user_id`,
+                    username, user_id, display_name`,
                     [username, hashedPassword, displayName]
                 )
            }).then(({rows}) => {

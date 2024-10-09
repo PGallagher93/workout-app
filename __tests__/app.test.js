@@ -395,7 +395,7 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test.only("POST 200: returns a 200 status code", () =>{
+    test("POST 200: returns a 200 status code", () =>{
         const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Kharn"
@@ -487,14 +487,15 @@ describe("POST: /api/user/sign_up", () => {
                  
                 expect(userDetails).toHaveProperty("user_id", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
-                
+                expect(userDetails).toHaveProperty("display_name", expect.any(String))
                 
               })
     })
-    test.skip("POST 403: returns a status code and forbidden message if username already exists ", ()=>{
+    test("POST 403: returns a status code and forbidden message if username already exists ", ()=>{
         const inputUserCredentials = {
             username:"Kharn",
-            password:"I LOVE KHORNE"
+            password:"I LOVE KHORNE",
+            displayName:"Betrayer"
         }
 
         return request(app)
@@ -511,6 +512,7 @@ describe("POST: /api/user/sign_up", () => {
         const inputUserCredentials = {
             user:"Vulcan",
             pass:"GOSALAMANDERS!",
+            display:"Vulkan"
         }
 
         return request(app)
@@ -555,7 +557,8 @@ describe("POST: /api/user/sign_up", () => {
     test("POST 400: returns a 400 status code and bad request message if sent an object with an empty string for username ", ()=>{
         const inputUserCredentials = {
             username:"",
-            password: "GOSALAMANDERS!"
+            password: "GOSALAMANDERS!",
+            displayName:"Ghost"
         }
 
         return request(app)
