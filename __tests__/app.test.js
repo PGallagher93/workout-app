@@ -412,6 +412,7 @@ describe("POST: /api/user/login", () => {
                 expect(userDetails).toHaveProperty("id", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))
+                expect(userDetails).toHaveProperty("displayName", expect.any(String))
             })
     })
     test("POST 404: returns a 404 status code and not found message if username does not exist", ()=>{
@@ -474,7 +475,8 @@ describe("POST: /api/user/sign_up", () => {
     test("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
         const inputUserCredentials = {
             username: "Vulcan",
-            password: "GOSALAMANDERS!"
+            password: "GOSALAMANDERS!",
+            displayName:"Vulcan"
         }
         return request(app)
               .post("/api/user/sign_up")
@@ -485,14 +487,15 @@ describe("POST: /api/user/sign_up", () => {
                  
                 expect(userDetails).toHaveProperty("user_id", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
-                
+                expect(userDetails).toHaveProperty("display_name", expect.any(String))
                 
               })
     })
     test("POST 403: returns a status code and forbidden message if username already exists ", ()=>{
         const inputUserCredentials = {
             username:"Kharn",
-            password:"I LOVE KHORNE"
+            password:"I LOVE KHORNE",
+            displayName:"Betrayer"
         }
 
         return request(app)
@@ -508,7 +511,8 @@ describe("POST: /api/user/sign_up", () => {
     test("POST 400: returns a 400 status code and bad request message if sent an object with incorrect keys ", ()=>{
         const inputUserCredentials = {
             user:"Vulcan",
-            pass:"GOSALAMANDERS!"
+            pass:"GOSALAMANDERS!",
+            display:"Vulkan"
         }
 
         return request(app)
@@ -553,7 +557,8 @@ describe("POST: /api/user/sign_up", () => {
     test("POST 400: returns a 400 status code and bad request message if sent an object with an empty string for username ", ()=>{
         const inputUserCredentials = {
             username:"",
-            password: "GOSALAMANDERS!"
+            password: "GOSALAMANDERS!",
+            displayName:"Ghost"
         }
 
         return request(app)

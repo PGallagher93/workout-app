@@ -14,6 +14,7 @@ const {
   destroyExerciseRecord,
   checkUserPasswordAndDestroyUser
 } = require("../models/user-models");
+const { resolve } = require("path");
 exports.postWorkout = (req, res, next) => {
   const workout = req.body;
   const { user_id } = req.params;
@@ -45,6 +46,7 @@ exports.getExerciseRecords = (req, res, next) => {
 
 exports.postLogin = (req, res, next) => {
   const credentials = req.body;
+  
   const promises = [
     checkUsernameExists(credentials),
     checkUserPasswordAndLogin(credentials),
@@ -52,7 +54,7 @@ exports.postLogin = (req, res, next) => {
 
   Promise.all(promises)
     .then((resolvedPromises) => {
-      
+  
       res.status(200).send({ userDetails: resolvedPromises[1] });
     })
     .catch(next);
@@ -60,11 +62,11 @@ exports.postLogin = (req, res, next) => {
 
 exports.postNewUser = (req, res, next) => {
   
-  const { username, password } = req.body;
+  const { username, password, displayName } = req.body;
  
   const promises = [
     checkUniqueUsername(username),
-    insertNewUser(username, password),
+    insertNewUser(username, password, displayName),
   ];
 
   Promise.all(promises)
@@ -75,12 +77,13 @@ exports.postNewUser = (req, res, next) => {
 };
 
 exports.postExerciseRecord = (req, res, next) => {
+  
   const {user_id} = req.params
   const {weight, exercise_id} = req.body
   if(!weight|| !exercise_id) {
     res.status(400).send({msg: "bad request"})
   }
-
+ 
   const promises = [
     checkUserExists(user_id),
     checkExerciseExists(exercise_id),

@@ -23,6 +23,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
   if(!password || !username){
     return Promise.reject({status: 400, msg: "bad request"})
   }
+  
     return db.query(
         `SELECT *
         from users
@@ -32,7 +33,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
         
         const userPass = rows[0].password
         const promises = [checkHashedPassword(password, userPass), 
-                          rows[0].user_id]
+                          rows[0].user_id, rows[0].display_name]
         const userInfo = Promise.all(promises).then((resolvedPromises) =>{
             
             return resolvedPromises
@@ -47,7 +48,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
         //else send token
          const token = jwt.sign({id:loginResult[1], username:username}, process.env.JWT_SECRET)
 
-         return {id: loginResult[1], username, token}
+         return {id: loginResult[1], username, token, displayName: loginResult[2]}
     })
      
 
@@ -59,6 +60,7 @@ exports.checkUserPasswordAndLogin = (credentials) => {
 exports.checkUsernameExists = (credentials) => {
    
     const {username} = credentials
+    
     if(!username){
       return Promise.reject(({status:400, msg: "bad request"}))
     }
@@ -79,7 +81,9 @@ exports.checkUsernameExists = (credentials) => {
 };
 
 exports.checkUniqueUsername = (username) => {
+  
     if(username === ""){
+      
         return Promise.reject({status: 400, msg: "bad request"})
     }
     return db
@@ -90,30 +94,31 @@ exports.checkUniqueUsername = (username) => {
         [username]
       ).then(({rows}) => {
         if(rows.length){
+          
             return Promise.reject({status: 403, msg: "forbidden"})
         }
       })
 }
 
-exports.insertNewUser = (username, password) => {
+exports.insertNewUser = (username, password, displayName) => {
    
-
+    
     const promises = [hashNewPassword(password)]
 
     return Promise.all(promises)
            .then((resolvedPromises) => {
             const hashedPassword = resolvedPromises[0]
-            
+           
             return db
                 .query(
                     `INSERT into
                      users
-                    (username, password)
+                    (username, password, display_name)
                     values
-                    ($1, $2)
+                    ($1, $2, $3)
                     returning 
-                    username, user_id`,
-                    [username, hashedPassword]
+                    username, user_id, display_name`,
+                    [username, hashedPassword, displayName]
                 )
            }).then(({rows}) => {
             return rows

@@ -45,6 +45,7 @@ app.delete("/api/user/:user_id/exercise_records", deleteExerciseRecord);
 app.delete("/api/user", deleteUser);
 
 app.use((req, res) => {
+  
   res.status(404).send({ msg: "not found" });
 });
 
