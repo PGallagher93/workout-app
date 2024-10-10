@@ -409,7 +409,7 @@ describe("POST: /api/user/login", () => {
             
                 const {userDetails} = res.body
                   
-                expect(userDetails).toHaveProperty("id", expect.any(Number))
+                expect(userDetails).toHaveProperty("userId", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))
                 expect(userDetails).toHaveProperty("displayName", expect.any(String))
@@ -485,9 +485,10 @@ describe("POST: /api/user/sign_up", () => {
               .then((res) =>{
                 const {userDetails} = res.body
                  
-                expect(userDetails).toHaveProperty("user_id", expect.any(Number))
+                expect(userDetails).toHaveProperty("userId", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
-                expect(userDetails).toHaveProperty("display_name", expect.any(String))
+                expect(userDetails).toHaveProperty("displayName", expect.any(String))
+                expect(userDetails).toHaveProperty("token", expect.any(String))
                 
               })
     })

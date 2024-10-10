@@ -46,9 +46,9 @@ exports.checkUserPasswordAndLogin = (credentials) => {
             return Promise.reject({status:401, msg: "not authorised"})
         }
         //else send token
-         const token = jwt.sign({id:loginResult[1], username:username}, process.env.JWT_SECRET)
+         const token = jwt.sign({userId:loginResult[1], username:username}, process.env.JWT_SECRET)
 
-         return {id: loginResult[1], username, token, displayName: loginResult[2]}
+         return {userId: loginResult[1], username, token, displayName: loginResult[2]}
     })
      
 
@@ -121,7 +121,10 @@ exports.insertNewUser = (username, password, displayName) => {
                     [username, hashedPassword, displayName]
                 )
            }).then(({rows}) => {
-            return rows
+            
+            const token = jwt.sign({userId:rows[0].user_id, username:rows[0].username}, process.env.JWT_SECRET)
+            
+            return {userId: rows[0].user_id, username: rows[0].username, token, displayName:rows[0].display_name}
            })
 }
 
