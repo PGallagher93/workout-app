@@ -306,7 +306,7 @@ describe("POST: /api/workouts/workout_stats/:workout_id", () => {
                 expect(msg).toBe("bad request")
               })
     })
-    test("POST 400: returns a 400 status code when given an empty input", ()=>{
+    test("POST400: returns a 400 status code when given an empty input", ()=>{
         const inputStats = {}
         return request(app)
               .post("/api/workouts/workout_stats/1")
