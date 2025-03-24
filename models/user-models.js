@@ -101,7 +101,7 @@ exports.checkUniqueUsername = (username) => {
       })
 }
 
-exports.insertNewUser = (username, password, displayName) => {
+exports.insertNewUser = (username, password, displayName, avatar) => {
    
     
     const promises = [hashNewPassword(password)]
@@ -114,18 +114,18 @@ exports.insertNewUser = (username, password, displayName) => {
                 .query(
                     `INSERT into
                      users
-                    (username, password, display_name)
+                    (username, password, display_name, avatar)
                     values
-                    ($1, $2, $3)
+                    ($1, $2, $3, $4)
                     returning 
-                    username, user_id, display_name`,
-                    [username, hashedPassword, displayName]
+                    username, user_id, display_name, avatar`,
+                    [username, hashedPassword, displayName, avatar]
                 )
            }).then(({rows}) => {
             
-            const token = jwt.sign({userId:rows[0].user_id, username:rows[0].username}, process.env.JWT_SECRET)
+            const token = jwt.sign({userId:rows[0].user_id, username:rows[0].username, avatar:rows[0].avatar}, process.env.JWT_SECRET)
             
-            return {userId: rows[0].user_id, username: rows[0].username, token, displayName:rows[0].display_name}
+            return {userId: rows[0].user_id, username: rows[0].username, token, displayName:rows[0].display_name, avatar:rows[0].avatar}
            })
 }
 

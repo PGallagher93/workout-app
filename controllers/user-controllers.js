@@ -61,12 +61,12 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postNewUser = (req, res, next) => {
-  
-  const { username, password, displayName } = req.body;
+  console.log(req.body)
+  const { username, password, displayName, avatar } = req.body;
  
   const promises = [
     checkUniqueUsername(username),
-    insertNewUser(username, password, displayName),
+    insertNewUser(username, password, displayName, avatar),
   ];
 
   Promise.all(promises)
