@@ -473,7 +473,7 @@ describe("POST: /api/user/login", () => {
 })
 
 describe("POST: /api/user/sign_up", () => {
-    test.only("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
+    test("POST 201: returns a 201 status code and posted user after successful creation", ()=>{
         const inputUserCredentials = {
             username: "Vulcan",
             password: "GOSALAMANDERS!",

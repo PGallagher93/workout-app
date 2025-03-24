@@ -101,7 +101,8 @@
     "exampleResponse":{"userDetails":{
                     "id": 1,
                     "username":"Kharn",
-                    "token": "rwopriqwr903qrrjq3r09qwtrjqrjqrqopjr43093"
+                    "token": "rwopriqwr903qrrjq3r09qwtrjqrjqrqopjr43093",
+                    "avatar":"SpaceWolvesAvatar"
     }        
   }
 },
@@ -158,10 +159,11 @@
   "POST /api/user/sign_up":{
     "description":"returns an object with the user details after successful sign up",
     "queries":[],
-    "exampleRequestBody": {"username":"string", "password":"string"},
+    "exampleRequestBody": {"username":"string", "password":"string", "avatar":"string"},
     "exampleResponse":{"userDetails":{
         "username":"Vulcan",
-        "user_id":3
+        "user_id":3,
+        "avatar":"SpaceWolvesAvatar"
     }}
   },
   "POST /api/user/:user_id/exercise_records":{
