@@ -395,24 +395,25 @@ describe("GET: /api/user/:user_id/exercise_records/:exercise_id", () =>{
     
 })
 describe("POST: /api/user/login", () => {
-    test("POST 200: returns a 200 status code", () =>{
+    test.only("POST 200: returns a 200 status code", () =>{
         const inputCredentials = {
             password: "TheEmperorSucks",
             username:"Kharn"
         }
-
+         
         return request(app)
             .post("/api/user/login")
             .send(inputCredentials)
             .expect(200)
             .then((res)=>{
-            
+                
                 const {userDetails} = res.body
-                  
+                console.log(userDetails, "< user deets")  
                 expect(userDetails).toHaveProperty("userId", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))
                 expect(userDetails).toHaveProperty("displayName", expect.any(String))
+                expect(userDetails).toHaveProperty("avatar", expect.any((String)))
             })
     })
     test("POST 404: returns a 404 status code and not found message if username does not exist", ()=>{

@@ -30,10 +30,10 @@ exports.checkUserPasswordAndLogin = (credentials) => {
         WHERE username = $1`,
         [username]
     ).then(({rows}) => {
-        
+        console.log(rows[0], "< rows 0")
         const userPass = rows[0].password
         const promises = [checkHashedPassword(password, userPass), 
-                          rows[0].user_id, rows[0].display_name]
+                          rows[0].user_id, rows[0].display_name,rows[0].avatar]
         const userInfo = Promise.all(promises).then((resolvedPromises) =>{
             
             return resolvedPromises
@@ -46,9 +46,10 @@ exports.checkUserPasswordAndLogin = (credentials) => {
             return Promise.reject({status:401, msg: "not authorised"})
         }
         //else send token
-         const token = jwt.sign({userId:loginResult[1], username:username}, process.env.JWT_SECRET)
+        console.log(loginResult, "< login result")
+         const token = jwt.sign({userId:loginResult[1], username:username, avatar:loginResult[3]}, process.env.JWT_SECRET)
 
-         return {userId: loginResult[1], username, token, displayName: loginResult[2]}
+         return {userId: loginResult[1], username, token, displayName: loginResult[2], avatar:loginResult[3]}
     })
      
 
