@@ -408,7 +408,7 @@ describe("POST: /api/user/login", () => {
             .then((res)=>{
                 
                 const {userDetails} = res.body
-                console.log(userDetails, "< user deets")  
+                
                 expect(userDetails).toHaveProperty("userId", expect.any(Number))
                 expect(userDetails).toHaveProperty("username", expect.any(String))
                 expect(userDetails).toHaveProperty("token", expect.any(String))

@@ -44,7 +44,7 @@ function seed ({userData, exerciseData, workoutsData, workoutStatsData, exercise
         
     })
     .then(() => {
-        console.log(newUserData)
+        
         const insertUsersQueryStr = format(
             'INSERT into users (username, password, display_name, avatar) values %L;',
             newUserData.map(({username, password, displayName, avatar}) => [
