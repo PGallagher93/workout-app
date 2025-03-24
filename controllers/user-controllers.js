@@ -61,7 +61,7 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postNewUser = (req, res, next) => {
-  console.log(req.body)
+  
   const { username, password, displayName, avatar } = req.body;
  
   const promises = [
