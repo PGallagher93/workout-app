@@ -13,7 +13,7 @@ const secret = process.env.JWT_SECRET
      jwt.verify(authHeader, secret,
         (err, decoded) => {
             if (err) return res.status(401).send({msg : "unauthorised"})
-            req.user = decoded.userId
+            req.user = decoded.username
             next()
         })
     

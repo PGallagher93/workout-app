@@ -20,6 +20,7 @@ const {
   deleteExerciseRecord,
   deleteUser
 } = require("./controllers/user-controllers");
+const {authMiddleware} = require("./authMiddleware")
 const cors = require('cors')
 const app = express();
 
